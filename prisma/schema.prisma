@@ -1,0 +1,288 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ─── Auth ────────────────────────────────────────────────────────────────────
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String    @unique
+  emailVerified DateTime?
+  image         String?
+  password      String?
+  role          Role      @default(ADMIN)
+  accounts      Account[]
+  sessions      Session[]
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  deletedAt     DateTime?
+
+  @@index([email])
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@index([userId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model VerificationToken {
+  identifier String
+  token      String
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+// ─── Bookings ────────────────────────────────────────────────────────────────
+
+model Booking {
+  id            String        @id @default(cuid())
+  name          String
+  email         String
+  phone         String
+  company       String?
+  packageId     String?
+  package       Package?      @relation(fields: [packageId], references: [id])
+  recordingType RecordingType
+  preferredDate DateTime
+  preferredTime String
+  notes         String?       @db.Text
+  status        BookingStatus @default(PENDING)
+  adminNotes    String?       @db.Text
+  totalAmount   Decimal?      @db.Decimal(10, 2)
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  deletedAt     DateTime?
+
+  @@index([email])
+  @@index([status])
+  @@index([preferredDate])
+  @@index([createdAt])
+}
+
+// ─── Leads ───────────────────────────────────────────────────────────────────
+
+model Lead {
+  id        String     @id @default(cuid())
+  name      String
+  email     String
+  phone     String?
+  company   String?
+  message   String?    @db.Text
+  source    LeadSource @default(CONTACT_FORM)
+  status    LeadStatus @default(NEW)
+  notes     String?    @db.Text
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  deletedAt DateTime?
+
+  @@index([email])
+  @@index([status])
+  @@index([source])
+  @@index([createdAt])
+}
+
+// ─── Services ────────────────────────────────────────────────────────────────
+
+model Service {
+  id          String    @id @default(cuid())
+  title       String
+  slug        String    @unique
+  description String    @db.Text
+  icon        String?
+  image       String?
+  features    String[]
+  sortOrder   Int       @default(0)
+  isActive    Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  deletedAt   DateTime?
+
+  @@index([slug])
+  @@index([isActive])
+}
+
+// ─── Packages ────────────────────────────────────────────────────────────────
+
+model Package {
+  id          String    @id @default(cuid())
+  name        String
+  slug        String    @unique
+  description String?   @db.Text
+  price       Decimal   @db.Decimal(10, 2)
+  duration    String
+  features    String[]
+  isPopular   Boolean   @default(false)
+  isActive    Boolean   @default(true)
+  sortOrder   Int       @default(0)
+  bookings    Booking[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  deletedAt   DateTime?
+
+  @@index([slug])
+  @@index([isActive])
+}
+
+// ─── Testimonials ─────────────────────────────────────────────────────────────
+
+model Testimonial {
+  id        String    @id @default(cuid())
+  name      String
+  company   String?
+  role      String?
+  avatar    String?
+  content   String    @db.Text
+  rating    Int       @default(5)
+  isActive  Boolean   @default(true)
+  sortOrder Int       @default(0)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  @@index([isActive])
+}
+
+// ─── FAQ ──────────────────────────────────────────────────────────────────────
+
+model FAQ {
+  id        String    @id @default(cuid())
+  question  String
+  answer    String    @db.Text
+  category  String?
+  sortOrder Int       @default(0)
+  isActive  Boolean   @default(true)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  @@index([isActive])
+}
+
+// ─── Portfolio ────────────────────────────────────────────────────────────────
+
+model Portfolio {
+  id          String    @id @default(cuid())
+  title       String
+  description String?   @db.Text
+  category    String
+  videoUrl    String?
+  thumbnail   String?
+  clientName  String?
+  tags        String[]
+  isFeatured  Boolean   @default(false)
+  isActive    Boolean   @default(true)
+  sortOrder   Int       @default(0)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  deletedAt   DateTime?
+
+  @@index([category])
+  @@index([isActive])
+}
+
+// ─── Gallery ──────────────────────────────────────────────────────────────────
+
+model Gallery {
+  id           String    @id @default(cuid())
+  title        String?
+  imageUrl     String
+  cloudinaryId String?
+  category     String?
+  altText      String?
+  sortOrder    Int       @default(0)
+  isActive     Boolean   @default(true)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  deletedAt    DateTime?
+
+  @@index([isActive])
+}
+
+// ─── Site Settings ────────────────────────────────────────────────────────────
+
+model SiteSetting {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  value     String   @db.Text
+  group     String   @default("general")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([key])
+  @@index([group])
+}
+
+// ─── Enums ────────────────────────────────────────────────────────────────────
+
+enum Role {
+  ADMIN
+  SUPER_ADMIN
+}
+
+enum BookingStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  COMPLETED
+  CANCELLED
+}
+
+enum RecordingType {
+  PODCAST
+  VIDEO_PODCAST
+  INTERVIEW
+  LIVESTREAM
+  SHORTS_REELS
+  CORPORATE
+  OTHER
+}
+
+enum LeadSource {
+  CONTACT_FORM
+  BOOKING_FORM
+  QUOTE_REQUEST
+  WHATSAPP
+  PHONE
+  REFERRAL
+  SOCIAL_MEDIA
+  OTHER
+}
+
+enum LeadStatus {
+  NEW
+  CONTACTED
+  QUALIFIED
+  CONVERTED
+  LOST
+}
