@@ -1,7 +1,6 @@
 "use client";
 
-import { useState } from "react";
-import { signIn } from "next-auth/react";
+import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -10,31 +9,31 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { loginSchema, type LoginFormData } from "@/lib/validations";
+import { adminLogin } from "@/lib/actions/auth";
 
 export default function AdminLoginPage() {
   const router = useRouter();
   const [error, setError] = useState("");
   const [showPwd, setShowPwd] = useState(false);
+  const [isPending, startTransition] = useTransition();
 
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm<LoginFormData>({ resolver: zodResolver(loginSchema) });
 
-  const onSubmit = async (data: LoginFormData) => {
+  const onSubmit = (data: LoginFormData) => {
     setError("");
-    const result = await signIn("credentials", {
-      email: data.email,
-      password: data.password,
-      redirect: false,
+    startTransition(async () => {
+      const result = await adminLogin(data);
+      if (result?.error) {
+        setError(result.error);
+      } else {
+        router.push("/admin");
+        router.refresh();
+      }
     });
-    if (result?.error) {
-      setError("Invalid email or password");
-    } else {
-      router.push("/admin");
-      router.refresh();
-    }
   };
 
   return (
@@ -110,10 +109,10 @@ export default function AdminLoginPage() {
 
             <Button
               type="submit"
-              disabled={isSubmitting}
+              disabled={isPending}
               className="w-full h-11 bg-purple-600 hover:bg-purple-700 text-white border-0 mt-2"
             >
-              {isSubmitting ? (
+              {isPending ? (
                 <>
                   <Loader2 className="mr-2 w-4 h-4 animate-spin" />
                   Signing in...
