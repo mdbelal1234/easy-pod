@@ -1,3 +1,4 @@
+import "dotenv/config";
 import { PrismaClient } from "@prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
 import bcrypt from "bcryptjs";
@@ -29,13 +30,14 @@ async function main() {
       name: "Starter",
       slug: "starter",
       description: "Perfect for first-time podcasters and solo creators.",
-      price: 4999,
-      duration: "2 Hours",
+      price: 999,
+      duration: "1 Hours",
       features: [
-        "2-Hour Studio Session",
+        "1-Hour Studio Session",
         "2 Microphone Setup",
+        "Professional Lighting Setup",
         "Basic Audio Editing",
-        "1 Camera Setup",
+        "3 Camera Setup",
         "RAW File Delivery",
         "WhatsApp Support",
       ],
@@ -47,12 +49,13 @@ async function main() {
       slug: "growth",
       description:
         "Most popular for growing podcast brands and content creators.",
-      price: 8999,
-      duration: "4 Hours",
+      price: 2999,
+      duration: "3 Hours",
       features: [
-        "4-Hour Studio Session",
-        "4 Microphone Setup",
-        "Full Audio & Video Editing",
+        "3-Hour Studio Session",
+        "2 Microphone Setup",
+        "Professional Lighting Setup",
+        "Basic Audio & Video Editing",
         "3 Camera Setup",
         "Thumbnail Design",
         "3 Short Clips / Reels",
@@ -67,11 +70,11 @@ async function main() {
       slug: "premium",
       description:
         "Full-service production for brands and professional creators.",
-      price: 14999,
-      duration: "Full Day",
+      price: 7999,
+      duration: "5 Hours",
       features: [
         "Full-Day Studio Access",
-        "Unlimited Microphones",
+        "2 Microphones",
         "Multi-Camera Production",
         "Professional Lighting Setup",
         "Live Streaming Ready",
@@ -307,7 +310,7 @@ async function main() {
     { key: "studio_phone", value: "+880 1XXX-XXXXXX", group: "contact" },
     { key: "studio_email", value: "hello@easypod.studio", group: "contact" },
     { key: "studio_address", value: "Dhaka, Bangladesh", group: "contact" },
-    { key: "whatsapp_number", value: "8801XXXXXXXXX", group: "contact" },
+    { key: "whatsapp_number", value: "8801890698946", group: "contact" },
     { key: "facebook_url", value: "https://facebook.com/easypodstudio", group: "social" },
     { key: "instagram_url", value: "https://instagram.com/easypodstudio", group: "social" },
     { key: "youtube_url", value: "https://youtube.com/@easypodstudio", group: "social" },
