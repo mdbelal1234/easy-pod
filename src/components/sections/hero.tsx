@@ -4,57 +4,63 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ArrowRight, Play, Star, Users, Mic } from "lucide-react";
+import { ArrowRight, Play, Star, Video, Mic, Sparkles } from "lucide-react";
+
+const floatingStats = [
+  { label: "Cameras", value: "Multi-cam 4K" },
+  { label: "Audio", value: "Rodecaster Pro II" },
+  { label: "Delivery", value: "Content-ready" },
+];
 
 export function HeroSection() {
   return (
-    <section className="relative min-h-screen bg-black overflow-hidden flex items-center">
-      {/* Grid background */}
-      <div className="absolute inset-0 bg-grid opacity-30" />
+    <section className="relative flex min-h-screen items-center overflow-hidden bg-black">
+      {/* Ambient lighting */}
+      <div className="pointer-events-none absolute inset-0 bg-grid opacity-25" />
+      <div className="pointer-events-none absolute -top-32 left-1/4 h-[28rem] w-[28rem] -translate-x-1/2 rounded-full bg-purple-600/25 blur-[140px]" />
+      <div className="pointer-events-none absolute bottom-0 right-1/4 h-72 w-72 rounded-full bg-fuchsia-500/10 blur-[120px]" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-black to-transparent" />
 
-      {/* Gradient blobs */}
-      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-600/20 rounded-full blur-[120px] -translate-x-1/2 -translate-y-1/2" />
-      <div className="absolute bottom-1/4 right-1/4 w-64 h-64 bg-purple-500/10 rounded-full blur-[80px]" />
-
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 pt-32">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          {/* Left */}
+      <div className="relative mx-auto max-w-7xl px-4 pb-20 pt-32 sm:px-6 lg:px-8">
+        <div className="grid items-center gap-12 lg:grid-cols-[1.05fr_0.95fr]">
+          {/* Copy */}
           <div>
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
             >
-              <Badge className="mb-6 bg-purple-600/20 text-purple-300 border-purple-500/30 hover:bg-purple-600/30">
-                <span className="w-2 h-2 rounded-full bg-purple-400 mr-2 animate-pulse" />
-                Now Open for Bookings
+              <Badge className="mb-6 border-purple-500/30 bg-purple-600/15 text-purple-200 hover:bg-purple-600/25">
+                <span className="mr-2 h-2 w-2 animate-pulse rounded-full bg-purple-400" />
+                Bangladesh&apos;s Premium Video Podcast Studio
               </Badge>
             </motion.div>
 
             <motion.h1
-              className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6"
+              className="mb-6 text-4xl font-bold leading-[1.05] tracking-tight text-white sm:text-5xl lg:text-7xl"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.1 }}
             >
-              Launch a{" "}
-              <span className="text-gradient">Professional Podcast</span>{" "}
-              Without Buying Expensive Equipment
+              Launch Your Podcast With{" "}
+              <span className="text-gradient">Professional Video</span> &amp;
+              Audio Production
             </motion.h1>
 
             <motion.p
-              className="text-lg text-white/60 mb-8 leading-relaxed"
+              className="mb-9 max-w-xl text-lg leading-relaxed text-white/60"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
             >
-              Record, livestream, and produce studio-quality podcasts with
-              professional audio, video, and editing support. Just show up and
-              create.
+              Record in a professionally equipped Dhaka studio with multi-camera
+              video, studio-grade audio, expert lighting, and full production
+              support. Walk in with an idea — walk out with content ready to
+              publish.
             </motion.p>
 
             <motion.div
-              className="flex flex-wrap gap-4 mb-12"
+              className="mb-12 flex flex-col gap-4 sm:flex-row sm:flex-wrap"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.3 }}
@@ -62,29 +68,29 @@ export function HeroSection() {
               <Button
                 asChild
                 size="lg"
-                className="bg-purple-600 hover:bg-purple-700 text-white border-0 text-base h-12 px-6"
+                className="h-13 border-0 bg-purple-600 px-7 text-base shadow-lg shadow-purple-600/30 hover:bg-purple-700"
               >
                 <Link href="/booking">
                   Book a Session
-                  <ArrowRight className="ml-2 w-4 h-4" />
+                  <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>
               <Button
                 asChild
                 size="lg"
                 variant="outline"
-                className="border-white/20 text-white hover:bg-white/5 text-base h-12 px-6 bg-transparent"
+                className="h-13 border-white/20 bg-transparent px-7 text-base text-white hover:bg-white/5"
               >
-                <Link href="/studio">
-                  <Play className="mr-2 w-4 h-4" />
-                  View Studio
+                <Link href="#studio-tour">
+                  <Play className="mr-2 h-4 w-4" />
+                  Watch Studio Tour
                 </Link>
               </Button>
             </motion.div>
 
             {/* Social proof */}
             <motion.div
-              className="flex flex-wrap items-center gap-6"
+              className="flex flex-wrap items-center gap-x-6 gap-y-4"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.5, delay: 0.4 }}
@@ -94,109 +100,106 @@ export function HeroSection() {
                   {[1, 2, 3, 4].map((i) => (
                     <div
                       key={i}
-                      className="w-8 h-8 rounded-full bg-gradient-to-br from-purple-500 to-purple-700 border-2 border-black flex items-center justify-center text-white text-xs font-bold"
+                      className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-black bg-gradient-to-br from-purple-500 to-purple-700 text-xs font-bold text-white"
                     >
                       {String.fromCharCode(64 + i)}
                     </div>
                   ))}
                 </div>
                 <div>
-                  <div className="text-white font-semibold text-sm">200+</div>
-                  <div className="text-white/50 text-xs">Happy Clients</div>
+                  <div className="text-sm font-semibold text-white">50+</div>
+                  <div className="text-xs text-white/50">Happy clients</div>
                 </div>
               </div>
 
-              <div className="w-px h-8 bg-white/10" />
+              <div className="h-8 w-px bg-white/10" />
 
               <div className="flex items-center gap-2">
                 <div className="flex">
                   {[1, 2, 3, 4, 5].map((i) => (
                     <Star
                       key={i}
-                      className="w-4 h-4 text-yellow-400 fill-yellow-400"
+                      className="h-4 w-4 fill-amber-400 text-amber-400"
                     />
                   ))}
                 </div>
                 <div>
-                  <div className="text-white font-semibold text-sm">4.9/5</div>
-                  <div className="text-white/50 text-xs">Rating</div>
+                  <div className="text-sm font-semibold text-white">4.9/5</div>
+                  <div className="text-xs text-white/50">Client rating</div>
                 </div>
               </div>
 
-              <div className="w-px h-8 bg-white/10" />
+              <div className="h-8 w-px bg-white/10" />
 
               <div className="flex items-center gap-2">
-                <Mic className="w-5 h-5 text-purple-400" />
+                <Mic className="h-5 w-5 text-purple-400" />
                 <div>
-                  <div className="text-white font-semibold text-sm">1,000+</div>
-                  <div className="text-white/50 text-xs">Episodes Produced</div>
+                  <div className="text-sm font-semibold text-white">150+</div>
+                  <div className="text-xs text-white/50">Episodes recorded</div>
                 </div>
               </div>
             </motion.div>
           </div>
 
-          {/* Right — Studio visual */}
+          {/* Studio visual */}
           <motion.div
             className="relative"
             initial={{ opacity: 0, x: 40 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            <div className="relative rounded-2xl overflow-hidden border border-white/10 bg-gradient-to-br from-purple-900/40 to-black aspect-[4/3]">
-              {/* Placeholder for studio image */}
+            <div className="relative aspect-[4/3] overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-purple-900/40 via-zinc-900 to-black">
+              {/* Replace this block with a real studio photo / next/image */}
               <div className="absolute inset-0 flex items-center justify-center">
                 <div className="text-center">
-                  <div className="w-20 h-20 bg-purple-600/30 rounded-full flex items-center justify-center mx-auto mb-4 border border-purple-500/30">
-                    <Mic className="w-10 h-10 text-purple-400" />
+                  <div className="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-full border border-purple-500/30 bg-purple-600/30">
+                    <Video className="h-10 w-10 text-purple-300" />
                   </div>
-                  <p className="text-white/40 text-sm">Studio Preview</p>
+                  <p className="text-sm text-white/40">
+                    Studio &amp; equipment showcase
+                  </p>
                 </div>
               </div>
 
-              {/* Overlay gradient */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
 
-              {/* Live badge */}
-              <div className="absolute top-4 left-4 flex items-center gap-2 bg-black/60 backdrop-blur rounded-full px-3 py-1.5 border border-white/10">
-                <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
-                <span className="text-white text-xs font-medium">
-                  Live Streaming Ready
+              {/* Recording badge */}
+              <div className="absolute left-4 top-4 flex items-center gap-2 rounded-full border border-white/10 bg-black/60 px-3 py-1.5 backdrop-blur">
+                <span className="h-2 w-2 animate-pulse rounded-full bg-red-500" />
+                <span className="text-xs font-medium text-white">
+                  Multi-camera recording
                 </span>
               </div>
 
-              {/* Stats card */}
-              <div className="absolute bottom-4 left-4 right-4 bg-black/70 backdrop-blur-xl rounded-xl p-4 border border-white/10">
-                <div className="grid grid-cols-3 gap-4">
-                  {[
-                    { label: "Microphones", value: "6+" },
-                    { label: "Cameras", value: "4K" },
-                    { label: "Delivery", value: "24hr" },
-                  ].map((stat) => (
+              {/* Spec strip */}
+              <div className="absolute inset-x-4 bottom-4 rounded-2xl border border-white/10 bg-black/70 p-4 backdrop-blur-xl">
+                <div className="grid grid-cols-3 gap-3">
+                  {floatingStats.map((stat) => (
                     <div key={stat.label} className="text-center">
-                      <div className="text-white font-bold text-lg">
+                      <div className="text-sm font-bold text-white">
                         {stat.value}
                       </div>
-                      <div className="text-white/50 text-xs">{stat.label}</div>
+                      <div className="text-xs text-white/50">{stat.label}</div>
                     </div>
                   ))}
                 </div>
               </div>
             </div>
 
-            {/* Floating cards */}
+            {/* Floating accent card */}
             <motion.div
-              className="absolute -top-4 -right-4 bg-black/80 backdrop-blur border border-white/10 rounded-xl p-3 flex items-center gap-3"
+              className="absolute -right-4 -top-4 flex items-center gap-3 rounded-2xl border border-white/10 bg-black/80 p-3 backdrop-blur"
               animate={{ y: [0, -8, 0] }}
               transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
             >
-              <div className="w-8 h-8 bg-purple-600 rounded-lg flex items-center justify-center">
-                <Users className="w-4 h-4 text-white" />
+              <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-purple-600">
+                <Sparkles className="h-4 w-4 text-white" />
               </div>
               <div>
-                <div className="text-white text-xs font-semibold">
-                  New booking
+                <div className="text-xs font-semibold text-white">
+                  Shorts &amp; Reels included
                 </div>
-                <div className="text-white/40 text-xs">2 min ago</div>
+                <div className="text-xs text-white/40">Ready to post</div>
               </div>
             </motion.div>
           </motion.div>

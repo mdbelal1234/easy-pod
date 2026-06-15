@@ -40,11 +40,11 @@ export function Footer() {
               <div className="w-9 h-9 bg-purple-600 rounded-lg flex items-center justify-center">
                 <Mic className="w-5 h-5 text-white" />
               </div>
-              <span className="text-white font-bold text-xl">Easy Pod</span>
+              <span className="text-white font-bold text-xl">EasyPod</span>
             </Link>
             <p className="text-white/50 text-sm leading-relaxed max-w-xs">
-              Professional podcast studio in Bangladesh. Record, livestream, and
-              produce studio-quality content.
+              Bangladesh&apos;s premium video podcast studio. Record, produce, and
+              grow studio-quality content in Gulshan, Dhaka.
             </p>
             <div className="flex items-center gap-3 mt-6">
               {socialLinks.map(({ href, Icon, label }) => (
@@ -84,10 +84,10 @@ export function Footer() {
 
         <div className="mt-16 pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-white/40 text-sm">
-            © {new Date().getFullYear()} Easy Pod. All rights reserved.
+            © {new Date().getFullYear()} EasyPod Studio. All rights reserved.
           </p>
           <p className="text-white/40 text-sm">
-            Dhaka, Bangladesh · hello@easypod.studio
+            Gulshan, Dhaka, Bangladesh · hello@easypod.studio
           </p>
         </div>
       </div>

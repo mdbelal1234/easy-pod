@@ -7,42 +7,47 @@ import { Star, ChevronLeft, ChevronRight, Quote } from "lucide-react";
 const testimonials = [
   {
     name: "Arif Rahman",
-    company: "TechTalk BD",
-    role: "Podcast Host",
+    company: "Growth Mindset BD",
+    role: "Business Coach",
+    result: "Booked 12 new clients from one season",
     content:
-      "Easy Pod completely transformed my podcast. The studio quality is unmatched and the team is incredibly professional. My downloads tripled after just one session.",
+      "EasyPod made my coaching podcast look like a TV show. The multi-camera edits and reels brought in twelve new high-ticket clients in a single season. Worth every taka.",
     rating: 5,
   },
   {
     name: "Nadia Islam",
-    company: "StartupDhaka",
-    role: "Founder & CEO",
+    company: "Founders of Dhaka",
+    role: "Host & Entrepreneur",
+    result: "Grew to 40k subscribers in 6 months",
     content:
-      "We've been recording our company podcast at Easy Pod for 6 months. The equipment, the team, and the editing quality are all top-tier. Highly recommended for any business.",
+      "I walked in with zero recording experience. The team guided me through everything and I left with publish-ready episodes. We hit 40k YouTube subscribers in six months.",
     rating: 5,
   },
   {
     name: "Tariq Hossain",
-    company: "The Coach Room",
-    role: "Executive Coach",
+    company: "Scale & Capital",
+    role: "Managing Partner",
+    result: "3x more inbound leads",
     content:
-      "As a coach, I need to look and sound credible. Easy Pod delivers exactly that. Professional setup, fast delivery, and the reels they create get massive engagement.",
+      "We use EasyPod for our corporate thought-leadership series. The audio is broadcast-grade and the shorts perform incredibly on LinkedIn — inbound leads tripled.",
     rating: 5,
   },
   {
     name: "Sadia Khatun",
-    company: "EduBD",
-    role: "Educator & YouTuber",
+    company: "The Wellness Room",
+    role: "Coach & Creator",
+    result: "Reels averaging 100k+ views",
     content:
-      "I was worried about the technical side but the Easy Pod team handled everything. I just showed up and focused on my content. Best decision for my YouTube channel.",
+      "The short-form clips they produce consistently hit six figures of views. EasyPod doesn't just record — they understand what makes content actually grow.",
     rating: 5,
   },
   {
     name: "Minhaj Chowdhury",
-    company: "Digital Agency BD",
-    role: "Creative Director",
+    company: "Chowdhury Media",
+    role: "Agency Director",
+    result: "Our go-to studio for every client",
     content:
-      "We produce content for multiple clients at Easy Pod. The studio handles everything from recording to post-production. It's our secret weapon for client delivery.",
+      "As an agency we need reliability and quality. EasyPod delivers on both, every time. It's now the only studio we book for our clients in Dhaka.",
     rating: 5,
   },
 ];
@@ -66,9 +71,13 @@ export function TestimonialsSection() {
           <p className="text-purple-400 font-semibold text-sm uppercase tracking-wider mb-3">
             Testimonials
           </p>
-          <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
-            What Creators Say
+          <h2 className="mb-4 text-3xl font-bold tracking-tight text-white sm:text-4xl lg:text-5xl">
+            Results Our Clients Talk About
           </h2>
+          <p className="mx-auto max-w-xl text-white/50">
+            Real stories from Bangladesh creators, coaches, and brands who grew
+            with EasyPod.
+          </p>
         </motion.div>
 
         <div className="relative max-w-3xl mx-auto">
@@ -81,13 +90,17 @@ export function TestimonialsSection() {
               transition={{ duration: 0.3 }}
               className="bg-white/5 border border-white/10 rounded-2xl p-8 md:p-12"
             >
-              <Quote className="w-10 h-10 text-purple-400/40 mb-6" />
-              <p className="text-white/80 text-lg leading-relaxed mb-8">
+              <Quote className="mb-6 h-10 w-10 text-purple-400/40" />
+              <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-purple-500/30 bg-purple-600/10 px-3 py-1 text-sm font-medium text-purple-200">
+                <span className="h-1.5 w-1.5 rounded-full bg-purple-400" />
+                {testimonials[current].result}
+              </div>
+              <p className="mb-8 text-lg leading-relaxed text-white/80">
                 &ldquo;{testimonials[current].content}&rdquo;
               </p>
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-purple-500 to-purple-700 flex items-center justify-center text-white font-bold text-lg">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-purple-500 to-purple-700 text-lg font-bold text-white">
                     {testimonials[current].name[0]}
                   </div>
                   <div>

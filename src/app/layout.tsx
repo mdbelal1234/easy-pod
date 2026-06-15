@@ -14,42 +14,43 @@ export const metadata: Metadata = {
     process.env.NEXT_PUBLIC_SITE_URL || "https://easypod.studio"
   ),
   title: {
-    default: "Easy Pod — Professional Podcast Studio in Bangladesh",
-    template: "%s | Easy Pod",
+    default: "EasyPod Studio — Premium Podcast Studio in Dhaka, Bangladesh",
+    template: "%s | EasyPod Studio",
   },
   description:
-    "Record, livestream, and produce studio-quality podcasts at Easy Pod. Professional audio, multi-camera video, and full editing support in Dhaka, Bangladesh.",
+    "Record, produce, and grow your podcast at EasyPod Studio Dhaka. Multi-camera video, studio-grade audio, expert lighting, and full editing support in Gulshan, Dhaka, Bangladesh.",
   keywords: [
     "podcast studio bangladesh",
-    "podcast recording studio",
-    "video podcast studio",
-    "podcast production service",
+    "video podcast studio dhaka",
+    "podcast recording studio dhaka",
+    "podcast production bangladesh",
+    "podcast editing services dhaka",
     "podcast studio dhaka",
-    "professional podcast recording",
   ],
-  authors: [{ name: "Easy Pod" }],
-  creator: "Easy Pod",
+  authors: [{ name: "EasyPod Studio" }],
+  creator: "EasyPod Studio",
   openGraph: {
     type: "website",
     locale: "en_US",
     url: "https://easypod.studio",
-    siteName: "Easy Pod",
-    title: "Easy Pod — Professional Podcast Studio in Bangladesh",
+    siteName: "EasyPod Studio",
+    title: "EasyPod Studio — Premium Podcast Studio in Dhaka, Bangladesh",
     description:
-      "Record, livestream, and produce studio-quality podcasts at Easy Pod.",
+      "Bangladesh's premium video podcast studio. Multi-camera recording, studio-grade audio, and full production support.",
     images: [
       {
         url: "/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "Easy Pod Studio",
+        alt: "EasyPod Studio — Dhaka video podcast studio",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Easy Pod — Professional Podcast Studio",
-    description: "Record, livestream, and produce studio-quality podcasts.",
+    title: "EasyPod Studio — Premium Podcast Studio in Dhaka",
+    description:
+      "Record your video podcast in Dhaka with multi-camera production and studio-grade audio.",
     images: ["/og-image.jpg"],
   },
   robots: {
