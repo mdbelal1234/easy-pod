@@ -75,7 +75,7 @@ export function WhoIsThisFor() {
           {audiences.map(({ icon: Icon, title, description }, i) => (
             <motion.div
               key={title}
-              className="group p-6 rounded-2xl border border-gray-100 hover:border-purple-200 bg-white hover:bg-purple-50/30 transition-all cursor-default"
+              className="group p-6 rounded-2xl border border-gray-100 hover:border-purple-200 bg-white hover:bg-purple-50/30 transition-colors cursor-default"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}

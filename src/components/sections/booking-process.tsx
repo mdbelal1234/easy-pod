@@ -11,6 +11,7 @@ import {
   TrendingUp,
   ArrowRight,
 } from "lucide-react";
+import { fadeInUp, staggerContainer } from "@/lib/motion";
 
 const steps = [
   {
@@ -47,7 +48,7 @@ const steps = [
 
 export function BookingProcess() {
   return (
-    <section className="relative overflow-hidden bg-zinc-950 py-24">
+    <section className="relative overflow-hidden bg-zinc-950 py-24 [content-visibility:auto] [contain-intrinsic-size:auto_700px]">
       <div className="pointer-events-none absolute inset-0 bg-grid opacity-20" />
 
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -72,15 +73,18 @@ export function BookingProcess() {
           {/* Connector line */}
           <div className="absolute left-0 right-0 top-7 hidden h-px bg-gradient-to-r from-transparent via-purple-500/30 to-transparent lg:block" />
 
-          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-5">
+          <motion.div
+            className="grid gap-8 sm:grid-cols-2 lg:grid-cols-5"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={staggerContainer(0.1)}
+          >
             {steps.map(({ icon: Icon, title, description }, i) => (
               <motion.div
                 key={title}
                 className="relative flex flex-col items-center text-center"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
+                variants={fadeInUp}
               >
                 <div className="relative mb-6">
                   <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-purple-500/30 bg-purple-600 shadow-lg shadow-purple-600/30">
@@ -96,7 +100,7 @@ export function BookingProcess() {
                 </p>
               </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
 
         <motion.div

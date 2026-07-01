@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Mic, Video, Scissors, Radio, Zap, ArrowRight } from "lucide-react";
+import { fadeInUp, staggerContainer } from "@/lib/motion";
 
 const services = [
   {
@@ -70,16 +71,19 @@ export function ServicesOverview() {
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-          {services.map(({ icon: Icon, number, title, description, href }, i) => (
+        <motion.div
+          className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={staggerContainer(0.08)}
+        >
+          {services.map(({ icon: Icon, number, title, description, href }) => (
             <motion.a
               key={title}
               href={href}
-              className="group p-6 rounded-2xl border border-white/10 hover:border-purple-500/30 bg-white/3 hover:bg-purple-600/5 transition-all"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.08 }}
+              className="group p-6 rounded-2xl border border-white/10 hover:border-purple-500/30 bg-white/3 hover:bg-purple-600/5 transition-colors"
+              variants={fadeInUp}
             >
               <div className="flex items-start justify-between mb-4">
                 <div className="w-11 h-11 bg-purple-600/10 group-hover:bg-purple-600/20 border border-purple-500/20 rounded-xl flex items-center justify-center transition-colors">
@@ -97,10 +101,7 @@ export function ServicesOverview() {
           {/* CTA card */}
           <motion.div
             className="p-6 rounded-2xl border border-purple-500/30 bg-gradient-to-br from-purple-900/30 to-purple-800/10 flex flex-col justify-between"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.4 }}
+            variants={fadeInUp}
           >
             <div>
               <h3 className="font-semibold text-white mb-2 text-lg">
@@ -120,7 +121,7 @@ export function ServicesOverview() {
               </Link>
             </Button>
           </motion.div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

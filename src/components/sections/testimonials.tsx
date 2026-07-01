@@ -60,7 +60,7 @@ export function TestimonialsSection() {
   const next = () => setCurrent((c) => (c + 1) % testimonials.length);
 
   return (
-    <section className="py-24 bg-black overflow-hidden">
+    <section className="py-24 bg-black overflow-hidden [content-visibility:auto] [contain-intrinsic-size:auto_700px]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           className="text-center mb-16"

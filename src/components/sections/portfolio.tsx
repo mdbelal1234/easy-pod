@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import { YouTubeEmbed } from "./youtube-embed";
+import { fadeInUp, staggerContainer } from "@/lib/motion";
 
 // Replace videoId values with real client episodes / sample work.
 const episodes = [
@@ -27,7 +28,7 @@ const episodes = [
 
 export function Portfolio() {
   return (
-    <section className="bg-black py-24">
+    <section className="bg-black py-24 [content-visibility:auto] [contain-intrinsic-size:auto_1100px]">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.div
           className="mb-16 text-center"
@@ -47,15 +48,18 @@ export function Portfolio() {
           </p>
         </motion.div>
 
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <motion.div
+          className="grid gap-6 md:grid-cols-2 lg:grid-cols-3"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={staggerContainer(0.08)}
+        >
           {episodes.map((ep, i) => (
             <motion.div
               key={i}
               className="overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03]"
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.08 }}
+              variants={fadeInUp}
             >
               <YouTubeEmbed
                 videoId={ep.videoId}
@@ -72,7 +76,7 @@ export function Portfolio() {
               </div>
             </motion.div>
           ))}
-        </div>
+        </motion.div>
 
         <motion.div
           className="mt-12 text-center"

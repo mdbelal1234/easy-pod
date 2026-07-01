@@ -15,6 +15,7 @@ import {
   ZoomIn,
   SunMedium,
 } from "lucide-react";
+import { fadeInUp, staggerContainer } from "@/lib/motion";
 
 type Item = {
   icon: typeof Camera;
@@ -142,7 +143,7 @@ const groups: { category: string; accent: string; items: Item[] }[] = [
 
 export function EquipmentShowcase() {
   return (
-    <section className="relative overflow-hidden bg-zinc-950 py-24">
+    <section className="relative overflow-hidden bg-zinc-950 py-24 [content-visibility:auto] [contain-intrinsic-size:auto_1400px]">
       <div className="pointer-events-none absolute inset-0 bg-grid opacity-20" />
 
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -164,9 +165,15 @@ export function EquipmentShowcase() {
           </p>
         </motion.div>
 
-        <div className="space-y-12">
+        <motion.div
+          className="space-y-12"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={staggerContainer(0.1)}
+        >
           {groups.map((group) => (
-            <div key={group.category}>
+            <motion.div key={group.category} variants={staggerContainer(0.06)}>
               <div className="mb-5 flex items-center gap-4">
                 <h3
                   className={`text-xs font-semibold uppercase tracking-[0.25em] ${group.accent}`}
@@ -176,15 +183,15 @@ export function EquipmentShowcase() {
                 <div className="h-px flex-1 bg-gradient-to-r from-white/15 to-transparent" />
               </div>
 
-              <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-                {group.items.map(({ icon: Icon, name, spec, benefit }, i) => (
+              <motion.div
+                className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3"
+                variants={staggerContainer(0.06)}
+              >
+                {group.items.map(({ icon: Icon, name, spec, benefit }) => (
                   <motion.div
                     key={name}
-                    className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] p-6 transition-all hover:border-purple-500/40 hover:bg-white/[0.05]"
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: i * 0.06 }}
+                    className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] p-6 transition-colors hover:border-purple-500/40 hover:bg-white/[0.05]"
+                    variants={fadeInUp}
                   >
                     <div className="absolute -right-10 -top-10 h-28 w-28 rounded-full bg-purple-600/10 blur-2xl transition-opacity group-hover:opacity-100 opacity-0" />
                     <div className="mb-5 flex items-center justify-between">
@@ -203,10 +210,10 @@ export function EquipmentShowcase() {
                     </p>
                   </motion.div>
                 ))}
-              </div>
-            </div>
+              </motion.div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

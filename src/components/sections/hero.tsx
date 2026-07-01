@@ -17,8 +17,8 @@ export function HeroSection() {
     <section className="relative flex min-h-screen items-center overflow-hidden bg-black">
       {/* Ambient lighting */}
       <div className="pointer-events-none absolute inset-0 bg-grid opacity-25" />
-      <div className="pointer-events-none absolute -top-32 left-1/4 h-[28rem] w-[28rem] -translate-x-1/2 rounded-full bg-purple-600/25 blur-[140px]" />
-      <div className="pointer-events-none absolute bottom-0 right-1/4 h-72 w-72 rounded-full bg-fuchsia-500/10 blur-[120px]" />
+      <div className="pointer-events-none absolute -top-32 left-1/4 h-[28rem] w-[28rem] -translate-x-1/2 rounded-full bg-purple-600/25 blur-[100px]" />
+      <div className="pointer-events-none absolute bottom-0 right-1/4 h-72 w-72 rounded-full bg-fuchsia-500/10 blur-[90px]" />
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-black to-transparent" />
 
       <div className="relative mx-auto max-w-7xl px-4 pb-20 pt-32 sm:px-6 lg:px-8">
@@ -188,7 +188,7 @@ export function HeroSection() {
 
             {/* Floating accent card */}
             <motion.div
-              className="absolute -right-4 -top-4 flex items-center gap-3 rounded-2xl border border-white/10 bg-black/80 p-3 backdrop-blur"
+              className="absolute -right-4 -top-4 flex items-center gap-3 rounded-2xl border border-white/10 bg-zinc-900 p-3"
               animate={{ y: [0, -8, 0] }}
               transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
             >

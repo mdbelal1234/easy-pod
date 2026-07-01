@@ -12,6 +12,7 @@ import {
   Smile,
   ArrowRight,
 } from "lucide-react";
+import { fadeInUp, staggerContainer } from "@/lib/motion";
 
 const reasons = [
   {
@@ -54,7 +55,7 @@ const reasons = [
 
 export function WhyChoose() {
   return (
-    <section className="bg-black py-24">
+    <section className="bg-black py-24 [content-visibility:auto] [contain-intrinsic-size:auto_900px]">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.div
           className="mb-16 text-center"
@@ -74,15 +75,18 @@ export function WhyChoose() {
           </p>
         </motion.div>
 
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {reasons.map(({ icon: Icon, title, description }, i) => (
+        <motion.div
+          className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={staggerContainer(0.07)}
+        >
+          {reasons.map(({ icon: Icon, title, description }) => (
             <motion.div
               key={title}
-              className="group rounded-2xl border border-white/10 bg-white/[0.03] p-7 transition-all hover:border-purple-500/30 hover:bg-white/[0.05]"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.07 }}
+              className="group rounded-2xl border border-white/10 bg-white/[0.03] p-7 transition-colors hover:border-purple-500/30 hover:bg-white/[0.05]"
+              variants={fadeInUp}
             >
               <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-xl border border-purple-500/20 bg-purple-600/10 transition-colors group-hover:bg-purple-600/20">
                 <Icon className="h-6 w-6 text-purple-300" />
@@ -93,7 +97,7 @@ export function WhyChoose() {
               </p>
             </motion.div>
           ))}
-        </div>
+        </motion.div>
 
         <motion.div
           className="mt-12 text-center"

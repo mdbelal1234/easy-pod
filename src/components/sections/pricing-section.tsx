@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Check, ArrowRight } from "lucide-react";
+import { fadeInUp, staggerContainer } from "@/lib/motion";
 
 const packages = [
   {
@@ -61,8 +62,8 @@ const packages = [
 
 export function PricingSection() {
   return (
-    <section className="relative overflow-hidden bg-zinc-950 py-24">
-      <div className="pointer-events-none absolute left-1/2 top-0 h-96 w-[40rem] -translate-x-1/2 rounded-full bg-purple-600/10 blur-[160px]" />
+    <section className="relative overflow-hidden bg-zinc-950 py-24 [content-visibility:auto] [contain-intrinsic-size:auto_1100px]">
+      <div className="pointer-events-none absolute left-1/2 top-0 h-96 w-[40rem] -translate-x-1/2 rounded-full bg-purple-600/10 blur-[110px]" />
 
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.div
@@ -83,19 +84,22 @@ export function PricingSection() {
           </p>
         </motion.div>
 
-        <div className="grid items-start gap-6 lg:grid-cols-3">
-          {packages.map((pkg, i) => (
+        <motion.div
+          className="grid items-start gap-6 lg:grid-cols-3"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={staggerContainer(0.1)}
+        >
+          {packages.map((pkg) => (
             <motion.div
               key={pkg.name}
-              className={`relative rounded-3xl border p-8 transition-all ${
+              className={`relative rounded-3xl border p-8 transition-colors ${
                 pkg.isPopular
                   ? "border-purple-500/50 bg-gradient-to-b from-purple-600/15 to-white/[0.02] shadow-2xl shadow-purple-900/30 lg:-mt-4 lg:mb-4"
                   : "border-white/10 bg-white/[0.03] hover:border-white/20"
               }`}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.1 }}
+              variants={fadeInUp}
             >
               {pkg.isPopular && (
                 <div className="absolute -top-3.5 left-1/2 -translate-x-1/2">
@@ -147,7 +151,7 @@ export function PricingSection() {
               </Button>
             </motion.div>
           ))}
-        </div>
+        </motion.div>
 
         <motion.p
           className="mt-8 text-center text-sm text-white/40"

@@ -4,12 +4,13 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Plus, Minus } from "lucide-react";
 import { faqs } from "./faqs-data";
+import { fadeInUp, staggerContainer } from "@/lib/motion";
 
 export function FAQSection() {
   const [open, setOpen] = useState<number | null>(0);
 
   return (
-    <section className="bg-black py-24">
+    <section className="bg-black py-24 [content-visibility:auto] [contain-intrinsic-size:auto_900px]">
       <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
         <motion.div
           className="mb-16 text-center"
@@ -25,15 +26,18 @@ export function FAQSection() {
           </h2>
         </motion.div>
 
-        <div className="space-y-3">
+        <motion.div
+          className="space-y-3"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={staggerContainer(0.05)}
+        >
           {faqs.map((faq, i) => (
             <motion.div
               key={i}
               className="overflow-hidden rounded-xl border border-white/10 bg-white/[0.03]"
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.05 }}
+              variants={fadeInUp}
             >
               <button
                 className="flex w-full items-center justify-between p-5 text-left"
@@ -68,7 +72,7 @@ export function FAQSection() {
               </AnimatePresence>
             </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

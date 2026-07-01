@@ -25,7 +25,7 @@ const details = [
 
 export function LocationSection() {
   return (
-    <section className="bg-zinc-950 py-24">
+    <section className="bg-zinc-950 py-24 [content-visibility:auto] [contain-intrinsic-size:auto_700px]">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.div
           className="mb-16 text-center"
