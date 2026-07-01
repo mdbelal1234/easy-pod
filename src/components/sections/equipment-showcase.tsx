@@ -6,10 +6,14 @@ import {
   Aperture,
   Smartphone,
   Sliders,
-  Mic,
+  Mic2,
   Layers,
-  Lightbulb,
+  Presentation,
   Volume2,
+  Focus,
+  Frame,
+  ZoomIn,
+  SunMedium,
 } from "lucide-react";
 
 type Item = {
@@ -21,20 +25,20 @@ type Item = {
 
 const groups: { category: string; accent: string; items: Item[] }[] = [
   {
-    category: "Cameras",
+    category: "Professional Multi-Camera Setup",
     accent: "text-purple-300",
     items: [
       {
         icon: Camera,
-        name: "Sony A7 V",
+        name: "Sony Alpha 7 IV",
         spec: "Full-frame hero camera",
         benefit:
           "Cinematic, full-frame footage that makes your podcast look like a premium TV show — not a webcam.",
       },
       {
         icon: Aperture,
-        name: "Sony ZV-E1",
-        spec: "Low-light creator camera",
+        name: "Sony ZV-1",
+        spec: "Compact creator camera",
         benefit:
           "Crisp, flattering close-ups with beautiful background blur, so every guest looks their best on camera.",
       },
@@ -48,20 +52,67 @@ const groups: { category: string; accent: string; items: Item[] }[] = [
     ],
   },
   {
+    category: "Premium Lens Collection",
+    accent: "text-sky-300",
+    items: [
+      {
+        icon: Focus,
+        name: "Sony FE 85mm F1.8",
+        spec: "Portrait prime",
+        benefit:
+          "Beautiful background blur for flattering, magazine-style portrait close-ups of hosts and guests.",
+      },
+      {
+        icon: Frame,
+        name: "Tamron 17-28mm F2.8",
+        spec: "Wide-angle zoom",
+        benefit:
+          "Wide, cinematic establishing shots that capture the full energy of the studio in one frame.",
+      },
+      {
+        icon: ZoomIn,
+        name: "Sony 18-105mm F4",
+        spec: "Versatile zoom",
+        benefit:
+          "One lens for product shots and cinematic B-roll, so every angle stays sharp without a lens change.",
+      },
+    ],
+  },
+  {
+    category: "Professional Lighting",
+    accent: "text-amber-300",
+    items: [
+      {
+        icon: SunMedium,
+        name: "Godox SL60II Series",
+        spec: "Key & fill lighting",
+        benefit:
+          "Adjustable, colour-accurate key and fill lights that give every shot a soft, cinematic studio look.",
+      },
+      {
+        icon: Presentation,
+        name: "Godox RGB Lighting",
+        spec: "LC500R & background lights",
+        benefit:
+          "Full-colour RGB accents and background lighting that add mood and brand personality to your set.",
+      },
+    ],
+  },
+  {
     category: "Audio",
     accent: "text-fuchsia-300",
     items: [
       {
         icon: Sliders,
-        name: "Rodecaster Pro II",
+        name: "RodeCaster Duo",
         spec: "Production console",
         benefit:
           "A broadcast-grade mixer that delivers clean, balanced sound and instant effects — no post-production guesswork.",
       },
       {
-        icon: Mic,
-        name: "Rode PodMic",
-        spec: "Dynamic broadcast mic",
+        icon: Mic2,
+        name: "DJI Mic 2 & Rode PodMic",
+        spec: "Wireless + dynamic mics",
         benefit:
           "Warm, radio-quality voice with background noise rejected, so your audience hears every word clearly.",
       },
@@ -69,7 +120,7 @@ const groups: { category: string; accent: string; items: Item[] }[] = [
   },
   {
     category: "Production",
-    accent: "text-amber-300",
+    accent: "text-emerald-300",
     items: [
       {
         icon: Layers,
@@ -77,13 +128,6 @@ const groups: { category: string; accent: string; items: Item[] }[] = [
         spec: "Synced angles",
         benefit:
           "Multiple synced angles edited into one dynamic episode that holds attention from intro to outro.",
-      },
-      {
-        icon: Lightbulb,
-        name: "Professional Lighting",
-        spec: "Cinematic key + fill",
-        benefit:
-          "Studio lighting that sets the mood and makes you look polished and confident on every shot.",
       },
       {
         icon: Volume2,

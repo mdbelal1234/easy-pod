@@ -12,12 +12,12 @@ export const faqs = [
   {
     question: "How many guests can I bring?",
     answer:
-      "Our Dhaka studio comfortably seats up to four people on camera with individual Rode PodMic microphones. Recording a larger panel or corporate shoot? Contact us and we'll arrange a custom setup.",
+      "Our Dhaka studio comfortably seats up to four people on camera with individual Rode PodMic and DJI Mic 2 microphones. Recording a larger panel or corporate shoot? Contact us and we'll arrange a custom setup.",
   },
   {
     question: "Do you provide all the equipment?",
     answer:
-      "Everything is provided — Sony A7 V and ZV-E1 cameras, DJI Osmo Pocket 3, a Rodecaster Pro II console, Rode PodMic mics, professional lighting, and an acoustically treated room. Just bring yourself and your ideas.",
+      "Everything is provided — Sony Alpha 7 IV and ZV-1 cameras, DJI Osmo Pocket 3, premium Sony & Tamron lenses, DJI Mic 2 and Rode PodMic microphones through a RodeCaster Duo, Godox cinematic lighting, a Desview T12S teleprompter, and an acoustically treated, air-conditioned room. Just bring yourself and your ideas.",
   },
   {
     question: "How long does delivery take?",

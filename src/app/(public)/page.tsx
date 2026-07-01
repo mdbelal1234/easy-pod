@@ -25,6 +25,11 @@ export const metadata: Metadata = {
     "podcast recording studio dhaka",
     "podcast production bangladesh",
     "podcast editing services dhaka",
+    "multi camera podcast studio",
+    "cinematic podcast recording",
+    "sony a7 iv podcast studio",
+    "rodecaster duo recording",
+    "youtube podcast studio",
   ],
   openGraph: {
     title:
@@ -44,7 +49,7 @@ function StructuredData() {
         "@id": `${site.url}/#business`,
         name: site.name,
         description:
-          "Premium video podcast recording and production studio in Dhaka, Bangladesh offering multi-camera recording, studio-grade audio, lighting, editing, and short-form content.",
+          "Premium video podcast recording and production studio in Dhaka, Bangladesh offering Sony & DJI multi-camera recording, RodeCaster Duo studio-grade audio, Godox cinematic lighting, professional editing, and short-form content.",
         url: site.url,
         email: site.email,
         telephone: site.phone,

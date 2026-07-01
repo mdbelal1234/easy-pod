@@ -118,13 +118,13 @@ async function main() {
       title: "Video Podcast Production",
       slug: "video-podcast-production",
       description:
-        "Look as professional as you sound. Multi-camera setup with cinema-quality lighting creates compelling visual content that keeps viewers watching.",
+        "Look as professional as you sound. A multi-camera Sony & DJI setup with Godox cinematic lighting creates compelling visual content that keeps viewers watching.",
       icon: "Video",
       features: [
-        "Multi-camera recording",
-        "4K video output",
-        "Professional lighting",
-        "Teleprompter available",
+        "Sony Alpha 7 IV, ZV-1 & DJI Osmo Pocket 3 cameras",
+        "4K multi-camera recording",
+        "Godox cinematic lighting",
+        "Desview T12S teleprompter",
         "B-roll recording",
       ],
       sortOrder: 2,
@@ -133,13 +133,14 @@ async function main() {
       title: "Editing & Post Production",
       slug: "editing-post-production",
       description:
-        "From raw footage to polished content. Our editors handle everything — audio cleaning, color grading, captions, and platform-optimized exports.",
+        "From raw footage to polished content. Two dedicated professional editors handle everything — multi-camera sync, audio enhancement, color correction, motion graphics, and platform-optimized exports.",
       icon: "Scissors",
       features: [
-        "Audio noise reduction",
-        "Color correction & grading",
-        "Captions & subtitles",
-        "Intro/outro integration",
+        "Two dedicated professional video editors",
+        "Multi-camera synchronization",
+        "Audio enhancement & noise reduction",
+        "Color correction & motion graphics",
+        "Captions, subtitles & thumbnail design",
         "Multi-platform exports",
       ],
       sortOrder: 3,
@@ -253,7 +254,7 @@ async function main() {
     {
       question: "What equipment do you have available?",
       answer:
-        "We have professional condenser microphones (Shure, Rode), DSLR and mirrorless cameras for multi-angle recording, professional lighting rigs, acoustic treatment panels, and a high-speed fiber internet connection for live streaming.",
+        "We have Sony Alpha 7 IV, Sony ZV-1 and DJI Osmo Pocket 3 cameras with premium Sony & Tamron lenses, DJI Mic 2 and Rode PodMic microphones through a RodeCaster Duo, Godox cinematic lighting, a Desview T12S teleprompter, acoustic treatment panels, and a high-speed fiber internet connection for live streaming.",
       sortOrder: 2,
     },
     {

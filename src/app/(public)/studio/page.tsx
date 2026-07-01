@@ -1,42 +1,81 @@
 import { Metadata } from "next";
 import { CTASection } from "@/components/sections/cta-section";
-import { Check, Mic, Video, Radio, Users, Zap, Monitor } from "lucide-react";
+import {
+  Check,
+  Mic,
+  Video,
+  Radio,
+  Users,
+  Zap,
+  Monitor,
+  Aperture,
+  Presentation,
+} from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Our Studio",
   description:
-    "Explore Easy Pod Studio — professional equipment, acoustic treatment, and everything you need.",
+    "Explore Easy Pod Studio — a professional video podcast studio in Dhaka with Sony & DJI cameras, RodeCaster Duo audio, Godox cinematic lighting, premium lenses, and full acoustic treatment.",
 };
 
-const equipment = [
+const equipment: {
+  category: string;
+  subtitle?: string;
+  icon: typeof Video;
+  items: string[];
+}[] = [
   {
-    category: "Microphones",
-    icon: Mic,
-    items: [
-      "Shure SM7B Dynamic Microphone",
-      "Rode NT1 Condenser Microphone",
-      "Focusrite Scarlett 18i20 Interface",
-      "Up to 6 simultaneous inputs",
-    ],
-  },
-  {
-    category: "Cameras",
+    category: "Professional Multi-Camera Setup",
+    subtitle:
+      "Capture your podcast from multiple cinematic angles using professional Sony and DJI cameras.",
     icon: Video,
     items: [
-      "Sony ZV-E10 (Multiple units)",
-      "4K/60fps video capability",
-      "Elgato Cam Link capture cards",
-      "Adjustable camera rigs & tripods",
+      "Sony Alpha 7 IV",
+      "Sony ZV-1",
+      "DJI Osmo Pocket 3",
+      "4K multi-camera synced recording",
     ],
   },
   {
-    category: "Lighting",
+    category: "Premium Lens Collection",
+    subtitle:
+      "Beautiful background blur, wide-angle shots, portrait close-ups, product shots, and cinematic B-roll.",
+    icon: Aperture,
+    items: [
+      "Sony FE 85mm F1.8",
+      "Sony FE 35mm F1.8",
+      "Tamron 17-28mm F2.8",
+      "Sony 18-105mm F4",
+    ],
+  },
+  {
+    category: "Audio",
+    icon: Mic,
+    items: [
+      "DJI Mic 2 — 2 transmitters, 1 receiver",
+      "2x Rode PodMic broadcast microphones",
+      "RodeCaster Duo audio processor",
+      "Broadcast-grade, noise-reduced sound",
+    ],
+  },
+  {
+    category: "Professional Lighting Equipment",
     icon: Zap,
     items: [
-      "Elgato Key Light Pro",
-      "Softbox diffuser panels",
+      "Godox SL60II D & SL60II Bi",
+      "Godox LC500R & SZ150R",
+      "Godox T30",
       "RGB background lighting",
-      "Colour-accurate setup",
+    ],
+  },
+  {
+    category: "Teleprompter & Backdrops",
+    icon: Presentation,
+    items: [
+      "Desview T12S Teleprompter",
+      "For courses, presentations & scripted podcasts",
+      "White, black, gray, blue, green backdrops",
+      "Choose the backdrop matching your brand",
     ],
   },
   {
@@ -50,23 +89,23 @@ const equipment = [
     ],
   },
   {
-    category: "Recording Space",
+    category: "Studio Environment",
     icon: Users,
     items: [
-      "Acoustically treated room",
+      "Professionally acoustic-treated, echo-free room",
+      "Quiet, air-conditioned & comfortable space",
       "6 guest capacity",
-      "Dedicated green room",
-      "Comfortable seating",
+      "Dedicated green room & seating",
     ],
   },
   {
-    category: "Post Production",
+    category: "Editing Services",
     icon: Monitor,
     items: [
-      "Adobe Premiere Pro",
-      "Adobe Audition",
-      "DaVinci Resolve",
-      "Descript for transcription",
+      "Two dedicated professional video editors",
+      "Multi-camera sync, audio enhancement & color correction",
+      "Motion graphics, reels, shorts & subtitles",
+      "Thumbnail design assistance",
     ],
   },
 ];
@@ -83,8 +122,9 @@ export default function StudioPage() {
             Professional Grade, Creator Friendly
           </h1>
           <p className="text-white/50 text-lg">
-            Every piece of equipment chosen for quality, reliability, and ease
-            of use.
+            Bangladesh&apos;s multi-camera podcast studio — Sony &amp; DJI
+            cameras, RodeCaster Duo audio, and Godox cinematic lighting, all
+            chosen for quality, reliability, and ease of use.
           </p>
         </div>
       </section>
@@ -120,17 +160,22 @@ export default function StudioPage() {
           </div>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {equipment.map(({ category, icon: Icon, items }) => (
+            {equipment.map(({ category, subtitle, icon: Icon, items }) => (
               <div
                 key={category}
                 className="p-6 rounded-2xl border border-gray-100 hover:border-purple-200 transition-colors bg-white"
               >
-                <div className="flex items-center gap-3 mb-5">
+                <div className="flex items-center gap-3 mb-3">
                   <div className="w-10 h-10 bg-purple-100 rounded-xl flex items-center justify-center">
                     <Icon className="w-5 h-5 text-purple-600" />
                   </div>
                   <h3 className="font-semibold text-gray-900">{category}</h3>
                 </div>
+                {subtitle && (
+                  <p className="text-gray-500 text-xs leading-relaxed mb-4">
+                    {subtitle}
+                  </p>
+                )}
                 <ul className="space-y-2">
                   {items.map((item) => (
                     <li key={item} className="flex items-center gap-2">

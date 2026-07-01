@@ -3,7 +3,28 @@ import { Metadata } from "next";
 import { prisma } from "@/lib/prisma";
 import { BookingForm } from "@/components/booking/booking-form";
 import { Badge } from "@/components/ui/badge";
-import { Clock, Shield, Headphones } from "lucide-react";
+import {
+  Clock,
+  Shield,
+  Headphones,
+  Camera,
+  Mic2,
+  Lightbulb,
+  Clapperboard,
+  Volume2,
+  Presentation,
+  Aperture,
+} from "lucide-react";
+
+const whyRecordHere = [
+  { icon: Camera, label: "Professional Cameras" },
+  { icon: Mic2, label: "Broadcast Audio" },
+  { icon: Lightbulb, label: "Cinematic Lighting" },
+  { icon: Clapperboard, label: "Professional Editing" },
+  { icon: Volume2, label: "Acoustic Studio" },
+  { icon: Presentation, label: "Teleprompter" },
+  { icon: Aperture, label: "Premium Lenses" },
+];
 
 export const metadata: Metadata = {
   title: "Book a Session",
@@ -38,6 +59,27 @@ export default async function BookingPage() {
             Fill out the form below and we&apos;ll confirm your session within
             24 hours.
           </p>
+        </div>
+
+        <div className="mb-12">
+          <h2 className="text-center text-sm font-semibold uppercase tracking-wider text-gray-400 mb-5">
+            Why Record at Easy Pod Studio?
+          </h2>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            {whyRecordHere.map(({ icon: Icon, label }) => (
+              <div
+                key={label}
+                className="flex items-center gap-2 bg-white rounded-xl p-3 border border-gray-200"
+              >
+                <div className="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <Icon className="w-4 h-4 text-purple-600" />
+                </div>
+                <span className="text-xs font-medium text-gray-700">
+                  {label}
+                </span>
+              </div>
+            ))}
+          </div>
         </div>
 
         <div className="grid lg:grid-cols-3 gap-8">

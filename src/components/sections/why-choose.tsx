@@ -30,7 +30,7 @@ const reasons = [
     icon: AudioLines,
     title: "Studio-Grade Audio",
     description:
-      "Rode mics and a Rodecaster Pro II in an acoustically treated room mean clean, rich sound every time.",
+      "Rode PodMic and DJI Mic 2 through a RodeCaster Duo in an acoustically treated room mean clean, rich sound every time.",
   },
   {
     icon: PackageCheck,

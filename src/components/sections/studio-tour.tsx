@@ -6,9 +6,9 @@ import { YouTubeEmbed } from "./youtube-embed";
 import { site } from "@/lib/site";
 
 const highlights = [
-  { icon: Camera, label: "Multi-camera 4K cinema setup" },
-  { icon: Lightbulb, label: "Broadcast-grade lighting" },
-  { icon: Mic, label: "Rode PodMic microphones" },
+  { icon: Camera, label: "Sony & DJI multi-camera setup" },
+  { icon: Lightbulb, label: "Godox cinematic lighting" },
+  { icon: Mic, label: "DJI Mic 2 & Rode PodMic" },
   { icon: Volume2, label: "Acoustically treated room" },
 ];
 
