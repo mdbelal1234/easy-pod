@@ -4,59 +4,65 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Check, ArrowRight } from "lucide-react";
+import { Check, ArrowRight, Video, Mic, Lightbulb, Snowflake, HardDrive, Wrench } from "lucide-react";
 import { fadeInUp, staggerContainer } from "@/lib/motion";
+
+const includedFeatures = [
+  { icon: Video, text: "Professional 4K video recording" },
+  { icon: Mic, text: "Studio-quality audio" },
+  { icon: Lightbulb, text: "Professional lighting setup" },
+  { icon: Snowflake, text: "Air-conditioned recording studio" },
+  { icon: HardDrive, text: "Instant raw footage handover" },
+  { icon: Wrench, text: "Technical setup before recording" },
+];
 
 const packages = [
   {
-    name: "Starter",
-    price: "৳7,999",
-    duration: "2-hour session",
-    description: "Perfect for first-time hosts and solo creators testing the waters.",
+    name: "Starter Session",
+    price: "৳1,500",
+    duration: "Hour",
+    description: "Record Your First Podcast with Confidence. A simple, professional setup designed for creators who want high-quality content without unnecessary complexity.",
     features: [
-      "2 hours studio time",
-      "1–2 camera angles",
-      "Studio-grade audio recording",
-      "Basic audio clean-up",
-      "1 short / reel included",
-      "Delivery in 5 business days",
+      "1-camera 4K recording",
+      "Professional audio for up to 2 speakers",
+      "Professional lighting",
+      "Raw footage handover",
+      "Technical assistance throughout the session",
     ],
     isPopular: false,
-    cta: "Start with Starter",
+    cta: "Book Starter Session",
   },
   {
-    name: "Professional",
-    price: "৳14,999",
-    duration: "3-hour session",
-    description: "Our most popular package for serious, consistent podcasters.",
+    name: "Creator Pro",
+    price: "৳2,000",
+    duration: "Hour",
+    description: "More Angles. More Engagement. Upgrade your content with dynamic camera angles that keep viewers watching longer and make your podcast look significantly more professional.",
     features: [
-      "3 hours studio time",
-      "3 camera multi-cam edit",
-      "Full audio + video editing",
-      "Colour grading & captions",
-      "4 shorts / reels included",
-      "Thumbnail design",
-      "Delivery in 3 business days",
+      "2-camera 4K multi-angle production",
+      "Professional audio for up to 2 speakers",
+      "Creative lighting setup",
+      "Raw footage handover",
+      "Technical assistance throughout the session",
     ],
     isPopular: true,
-    cta: "Choose Professional",
+    cta: "Book Creator Pro",
   },
   {
-    name: "Premium",
-    price: "৳26,999",
-    duration: "Half-day session",
-    description: "Full-service production for brands and high-output creators.",
+    name: "Studio Signature",
+    price: "৳2,500",
+    duration: "Hour",
+    description: "Your Podcast, Produced Like a Professional Show. Built for creators, brands, and businesses that want premium production quality and ready-to-share content for multiple platforms.",
     features: [
-      "Up to 5 hours studio time",
-      "Multi-camera + dynamic B-roll",
-      "Full edit suite & sound design",
-      "8 shorts / reels included",
-      "Thumbnails & episode artwork",
-      "Dedicated producer on set",
-      "Priority delivery in 48 hours",
+      "3-camera 4K cinematic production",
+      "Dynamic multi-angle coverage",
+      "Professional audio for up to 2 speakers",
+      "Premium cinematic lighting",
+      "Dedicated production assistant during the session",
+      "Priority production support",
+      "Raw footage handover",
     ],
     isPopular: false,
-    cta: "Go Premium",
+    cta: "Book Studio Signature",
   },
 ];
 
@@ -82,6 +88,31 @@ export function PricingSection() {
             Studio time, cameras, editing, and ready-to-post clips — bundled so
             you know exactly what you&apos;re getting.
           </p>
+        </motion.div>
+
+        {/* Every Session Includes Banner */}
+        <motion.div
+          className="mb-16 rounded-3xl border border-white/10 bg-white/[0.02] p-8 backdrop-blur-sm max-w-4xl mx-auto"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+        >
+          <h3 className="text-sm font-semibold uppercase tracking-wider text-purple-400 text-center mb-6">
+            Every Session Includes
+          </h3>
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
+            {includedFeatures.map((item, idx) => {
+              const Icon = item.icon;
+              return (
+                <div key={idx} className="flex items-center gap-3 text-white/80 group">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-purple-600/10 text-purple-400 group-hover:bg-purple-600 group-hover:text-white transition-colors duration-300">
+                    <Icon className="h-5 w-5" />
+                  </div>
+                  <span className="text-sm font-medium leading-tight">{item.text}</span>
+                </div>
+              );
+            })}
+          </div>
         </motion.div>
 
         <motion.div

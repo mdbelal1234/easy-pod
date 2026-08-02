@@ -7,7 +7,7 @@ export const faqs = [
   {
     question: "Can you edit my podcast?",
     answer:
-      "Yes. Editing is included in our Professional and Premium packages, and available as an add-on for Starter. We handle audio clean-up, multi-camera editing, colour grading, captions, intros/outros, and short-form clips.",
+      "Yes. While raw footage is handed over immediately after the session, edited reels/shorts are included in our Creator Pro and Studio Signature packages. Full episode editing, audio cleanup, and custom branding are also available as add-on services.",
   },
   {
     question: "How many guests can I bring?",
@@ -22,11 +22,11 @@ export const faqs = [
   {
     question: "How long does delivery take?",
     answer:
-      "Turnaround depends on your package: 5 business days for Starter, 3 for Professional, and priority 48-hour delivery for Premium. You'll receive your finished episode plus social clips, ready to publish.",
+      "Raw footage is handed over instantly after your session. If you request our optional video editing or social media clips add-on, the turnaround time is typically 3 business days.",
   },
   {
     question: "Can I get social media clips?",
     answer:
-      "Absolutely. Every package includes ready-to-post vertical shorts and reels optimised for Instagram, TikTok, and YouTube Shorts — the content that drives the most growth for our clients.",
+      "Absolutely. Social media reels and shorts are available as an add-on service. We identify the best hooks and moments of your podcast and edit them into highly engaging vertical clips ready for Instagram, TikTok, and YouTube Shorts.",
   },
 ];
