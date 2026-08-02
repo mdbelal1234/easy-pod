@@ -13,7 +13,6 @@ import {
   Package,
   MessageSquare,
   HelpCircle,
-  Image,
   GalleryHorizontal,
   Settings,
   LogOut,
@@ -31,7 +30,6 @@ const navItems = [
   { href: "/admin/packages", label: "Packages", icon: Package },
   { href: "/admin/testimonials", label: "Testimonials", icon: MessageSquare },
   { href: "/admin/faqs", label: "FAQs", icon: HelpCircle },
-  { href: "/admin/portfolio", label: "Portfolio", icon: Image },
   { href: "/admin/gallery", label: "Gallery", icon: GalleryHorizontal },
   { href: "/admin/settings", label: "Settings", icon: Settings },
 ];

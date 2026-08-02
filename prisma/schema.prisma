@@ -189,28 +189,6 @@ model FAQ {
   @@index([isActive])
 }
 
-// ─── Portfolio ────────────────────────────────────────────────────────────────
-
-model Portfolio {
-  id          String    @id @default(cuid())
-  title       String
-  description String?   @db.Text
-  category    String
-  videoUrl    String?
-  thumbnail   String?
-  clientName  String?
-  tags        String[]
-  isFeatured  Boolean   @default(false)
-  isActive    Boolean   @default(true)
-  sortOrder   Int       @default(0)
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  deletedAt   DateTime?
-
-  @@index([category])
-  @@index([isActive])
-}
-
 // ─── Gallery ──────────────────────────────────────────────────────────────────
 
 model Gallery {

@@ -98,12 +98,6 @@ export async function deletePackage(id: string) {
   revalidatePath("/admin/packages");
 }
 
-export async function deletePortfolio(id: string) {
-  await requireAdmin();
-  await prisma.portfolio.update({ where: { id }, data: { deletedAt: new Date() } });
-  revalidatePath("/admin/portfolio");
-}
-
 export async function deleteGallery(id: string) {
   await requireAdmin();
   await prisma.gallery.update({ where: { id }, data: { deletedAt: new Date() } });

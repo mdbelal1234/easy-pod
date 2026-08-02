@@ -5,7 +5,6 @@ import { StudioTour } from "@/components/sections/studio-tour";
 import { EquipmentShowcase } from "@/components/sections/equipment-showcase";
 import { WhyChoose } from "@/components/sections/why-choose";
 import { PricingSection } from "@/components/sections/pricing-section";
-import { Portfolio } from "@/components/sections/portfolio";
 import { TestimonialsSection } from "@/components/sections/testimonials";
 import { BookingProcess } from "@/components/sections/booking-process";
 import { FAQSection } from "@/components/sections/faq-section";
@@ -102,7 +101,6 @@ export default function HomePage() {
       <EquipmentShowcase />
       <WhyChoose />
       <PricingSection />
-      <Portfolio />
       <TestimonialsSection />
       <BookingProcess />
       <FAQSection />
