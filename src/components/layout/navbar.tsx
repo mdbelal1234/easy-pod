@@ -53,8 +53,8 @@ export function Navbar() {
         )}
       >
         <nav className="mx-auto flex h-16 max-w-[1400px] items-center justify-between px-4 sm:px-6 lg:px-10">
-          <Link href="/" aria-label="EasyPod home" onClick={close} className="text-xl text-paper">
-            <Wordmark />
+          <Link href="/" aria-label="EasyPod Studio home" onClick={close} className="shrink-0">
+            <Wordmark className="h-10 sm:h-11" />
           </Link>
 
           <ul className="hidden items-center gap-8 md:flex">

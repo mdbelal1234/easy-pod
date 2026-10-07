@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { siFacebook, siInstagram, siTiktok, siYoutube } from "simple-icons";
 import { BrandIcon } from "@/components/site/brand-icon";
+import { Wordmark } from "@/components/site/wordmark";
 import { site } from "@/lib/site";
 
 const footerLinks = [
@@ -22,10 +23,13 @@ const socialLinks = [
 export function Footer() {
   return (
     <footer className="overflow-hidden border-t border-paper/10">
-      <div className="mx-auto max-w-[1400px] px-4 pt-16 sm:px-6 lg:px-10">
+      <div className="mx-auto max-w-[1400px] px-4 pb-10 pt-16 sm:px-6 lg:px-10">
         <div className="grid gap-12 md:grid-cols-[1.4fr_repeat(3,1fr)]">
           <div className="max-w-xs">
-            <p className="text-sm leading-relaxed text-muted-ink">
+            <Link href="/" aria-label="EasyPod Studio home" className="inline-block">
+              <Wordmark variant="full" className="w-56" />
+            </Link>
+            <p className="mt-8 text-sm leading-relaxed text-muted-ink">
               A video podcast studio in Vatara, Dhaka. Book an hour, bring your
               guests, leave with the footage.
             </p>
@@ -78,12 +82,6 @@ export function Footer() {
           <p>Salam Tower, Vatara, Dhaka</p>
         </div>
 
-        <p
-          aria-hidden
-          className="font-display-wide -mb-[0.2em] mt-6 select-none text-[clamp(4rem,19vw,17rem)] leading-none text-ink-3"
-        >
-          easypod
-        </p>
       </div>
     </footer>
   );
