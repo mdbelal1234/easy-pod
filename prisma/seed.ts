@@ -298,10 +298,10 @@ async function main() {
   const settings = [
     { key: "studio_name", value: "Easy Pod", group: "general" },
     { key: "studio_tagline", value: "Professional Podcast Studio in Bangladesh", group: "general" },
-    { key: "studio_phone", value: "+880 1XXX-XXXXXX", group: "contact" },
+    { key: "studio_phone", value: "+880 1620 309061", group: "contact" },
     { key: "studio_email", value: "hello@easypod.studio", group: "contact" },
     { key: "studio_address", value: "Dhaka, Bangladesh", group: "contact" },
-    { key: "whatsapp_number", value: "8801890698946", group: "contact" },
+    { key: "whatsapp_number", value: "8801620309061", group: "contact" },
     { key: "facebook_url", value: "https://facebook.com/easypodstudio", group: "social" },
     { key: "instagram_url", value: "https://instagram.com/easypodstudio", group: "social" },
     { key: "youtube_url", value: "https://youtube.com/@easypodstudio", group: "social" },

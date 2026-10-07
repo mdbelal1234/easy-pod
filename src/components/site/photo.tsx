@@ -12,11 +12,14 @@ export function Photo({
   sizes,
   preload = false,
   className,
+  placeholderClassName,
 }: {
   slot: PhotoSlot;
   sizes: string;
   preload?: boolean;
   className?: string;
+  /** Extra classes for the empty-slot placeholder only (e.g. label position). */
+  placeholderClassName?: string;
 }) {
   if (slot.src) {
     return (
@@ -37,7 +40,8 @@ export function Photo({
       aria-label={slot.alt}
       className={cn(
         "absolute inset-0 flex items-end bg-ink-2 bg-[radial-gradient(120%_80%_at_70%_20%,var(--color-ink-3),transparent)] p-5",
-        className
+        className,
+        placeholderClassName
       )}
     >
       <span className="flex items-center gap-2 font-mono text-xs text-dim">

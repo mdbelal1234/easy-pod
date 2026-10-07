@@ -10,7 +10,12 @@ const corner = "absolute size-7 border-paper/45";
 export function HeroSection() {
   return (
     <section className="relative flex min-h-[100dvh] items-end overflow-hidden">
-      <Photo slot={photos.hero} sizes="100vw" preload className="items-start justify-end px-10 pt-36 lg:px-16 lg:pt-28" />
+      <Photo
+        slot={photos.hero}
+        sizes="100vw"
+        preload
+        placeholderClassName="items-start justify-end px-10 pt-36 lg:px-16 lg:pt-28"
+      />
       <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/55 to-ink/20" />
       <div className="absolute inset-0 bg-gradient-to-r from-ink/70 via-transparent to-transparent" />
 

@@ -8,9 +8,9 @@ export const site = {
   city: "Dhaka",
   country: "Bangladesh",
   email: "hello@easypod.studio",
-  phone: "+880 1700 000000",
-  // Digits only, for wa.me links (replace with the real WhatsApp number).
-  whatsapp: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "8801700000000",
+  phone: "+880 1620 309061",
+  // Digits only, for wa.me links.
+  whatsapp: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "8801620309061",
   url: process.env.NEXT_PUBLIC_SITE_URL || "https://easypod.studio",
   address: {
     street: "Salam Tower, Vatara",
