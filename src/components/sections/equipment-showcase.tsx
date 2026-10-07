@@ -5,102 +5,100 @@ import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Photo } from "@/components/site/photo";
 import { photos, type PhotoSlot } from "@/lib/media";
 import { cn } from "@/lib/utils";
+import { waLink } from "@/lib/site";
 
-type Item = { name: string; role: string; benefit: string };
+type Point = { title: string; body: string };
 
-const groups: { label: string; photo: PhotoSlot; items: Item[] }[] = [
+// Outcomes, not model numbers: the full equipment list is shared on WhatsApp.
+const groups: { label: string; photo: PhotoSlot; lead: string; points: Point[] }[] = [
   {
     label: "Cameras",
     photo: photos.cameras,
-    items: [
+    lead: "Up to three 4K angles, so your episode cuts like a show instead of a video call.",
+    points: [
       {
-        name: "Sony Alpha 7 IV",
-        role: "Full-frame main camera",
-        benefit: "Cinematic footage that looks like a TV production, not a webcam call.",
+        title: "Wide, medium and close",
+        body: "Switching between angles keeps viewers watching and gives you clean frames for clips and thumbnails.",
       },
       {
-        name: "Sony ZV-1",
-        role: "Close-up camera",
-        benefit: "Sharp, flattering close-ups with a soft background.",
+        title: "Framed for you",
+        body: "We set height, framing and focus before you sit down. You never touch a camera.",
       },
       {
-        name: "Sony ZV-E10",
-        role: "Second-angle camera",
-        benefit: "An extra interchangeable-lens angle that matches the main camera's colour.",
+        title: "Recorded in sync",
+        body: "Every angle runs together, so editing the episode afterwards is quick.",
       },
     ],
   },
   {
     label: "Lenses",
     photo: photos.lenses,
-    items: [
+    lead: "The right lens is the difference between a cinematic shot and a flat one.",
+    points: [
       {
-        name: "Sony FE 85mm F1.8",
-        role: "Portrait prime",
-        benefit: "Magazine-style portraits of hosts and guests.",
+        title: "Soft, blurred backgrounds",
+        body: "Portrait lenses keep the focus on your face and make the set feel deeper.",
       },
       {
-        name: "Tamron 17-28mm F2.8",
-        role: "Wide zoom",
-        benefit: "Establishing shots that take in the whole set.",
+        title: "The whole conversation",
+        body: "Wide shots show everyone at the table, so viewers always know who is talking to whom.",
       },
       {
-        name: "Sony 18-105mm F4",
-        role: "Standard zoom",
-        benefit: "Product shots and B-roll without a lens change.",
+        title: "Products and details",
+        body: "Holding up a book or a product? We frame it sharply without stopping the session.",
       },
     ],
   },
   {
     label: "Lighting",
     photo: photos.lighting,
-    items: [
+    lead: "Good light makes you look rested and sharp, even at the end of a long day.",
+    points: [
       {
-        name: "Godox SL60II",
-        role: "Key and fill",
-        benefit: "Soft, colour-accurate light on every face.",
+        title: "Flattering on every face",
+        body: "Soft key and fill light avoids harsh shadows, for hosts and guests alike.",
       },
       {
-        name: "Godox LC500R and RGB",
-        role: "Background lighting",
-        benefit: "Colour accents that set the mood and match your brand.",
+        title: "Your colours on set",
+        body: "Coloured background light and a choice of backdrops let the set match your brand.",
       },
     ],
   },
   {
     label: "Audio",
     photo: photos.audio,
-    items: [
+    lead: "Viewers forgive average video. They click away from bad sound.",
+    points: [
       {
-        name: "RodeCaster Duo",
-        role: "Production console",
-        benefit: "Levels mixed live, so there is less to fix later.",
+        title: "A mic for every voice",
+        body: "Each speaker gets their own microphone, so nobody sounds distant or drowned out.",
       },
       {
-        name: "Rode PodMic and DJI Mic 2",
-        role: "Dynamic and wireless mics",
-        benefit: "A warm, close voice with room noise kept out.",
+        title: "Mixed while you talk",
+        body: "Levels are balanced live during recording, so there is less to clean up later.",
+      },
+      {
+        title: "Your voice, not the room",
+        body: "Close-range broadcast mics pick up what you say and leave the background out.",
       },
     ],
   },
   {
     label: "The room",
     photo: photos.room,
-    items: [
+    lead: "A quiet, comfortable space where you forget you are being recorded.",
+    points: [
       {
-        name: "Acoustic treatment",
-        role: "Controlled room",
-        benefit: "Treated walls stop echo before it reaches the mic.",
+        title: "No echo",
+        body: "Acoustic treatment on the walls keeps every voice clear and close.",
       },
       {
-        name: "Desview T12S",
-        role: "Teleprompter",
-        benefit: "Read intros and scripts while keeping eye contact with the lens.",
+        title: "Comfortable for long sessions",
+        body: "Air-conditioned, with seating for guests while they wait their turn.",
       },
       {
-        name: "Synced multi-cam",
-        role: "Recording",
-        benefit: "Every angle recorded together, ready to cut into one edit.",
+        title: "Read without looking away",
+        body: "A teleprompter lets you deliver intros and scripts while keeping eye contact with the camera.",
       },
     ],
   },
@@ -127,7 +125,7 @@ export function EquipmentShowcase() {
       <div className="mx-auto grid max-w-[1400px] grid-cols-[minmax(0,1fr)] gap-12 px-4 sm:px-6 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-20 lg:px-10">
         <div>
           <h2 className="reveal font-display-wide text-4xl leading-[1.02] sm:text-5xl">
-            The kit, and what it does for you.
+            What the studio does for you.
           </h2>
 
           <div
@@ -167,12 +165,21 @@ export function EquipmentShowcase() {
                   />
                   {g.label}
                 </span>
-                <span className="hidden font-mono text-xs text-dim lg:inline">
-                  {g.items.length} items
-                </span>
               </button>
             ))}
           </div>
+
+          <p className="mt-8 text-sm text-muted-ink">
+            Want the exact equipment list?{" "}
+            <a
+              href={waLink("Hi! Could you share the full equipment list for EasyPod Studio?")}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-paper underline decoration-tally underline-offset-4 hover:text-tally"
+            >
+              Ask us on WhatsApp
+            </a>
+          </p>
         </div>
 
         <div
@@ -192,13 +199,16 @@ export function EquipmentShowcase() {
                 <Photo slot={group.photo} sizes="(min-width: 1024px) 55vw, 100vw" />
               </div>
 
+              <p className="mt-8 max-w-[52ch] text-pretty text-xl leading-snug text-paper">
+                {group.lead}
+              </p>
+
               <ul className="mt-8 grid gap-x-8 gap-y-7 sm:grid-cols-2">
-                {group.items.map((item) => (
-                  <li key={item.name}>
-                    <p className="font-medium text-paper">{item.name}</p>
-                    <p className="mt-0.5 font-mono text-xs text-tally">{item.role}</p>
+                {group.points.map((point) => (
+                  <li key={point.title}>
+                    <p className="font-medium text-paper">{point.title}</p>
                     <p className="mt-2 text-sm leading-relaxed text-muted-ink">
-                      {item.benefit}
+                      {point.body}
                     </p>
                   </li>
                 ))}

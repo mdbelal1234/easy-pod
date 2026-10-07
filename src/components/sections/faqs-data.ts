@@ -12,12 +12,12 @@ export const faqs = [
   {
     question: "How many guests can I bring?",
     answer:
-      "The studio seats up to four people on camera, each with their own Rode PodMic or DJI Mic 2. Recording a larger panel or a corporate shoot? Contact us and we'll arrange a custom setup.",
+      "The studio seats up to four people on camera, each with their own microphone. Recording a larger panel or a corporate shoot? Contact us and we'll arrange a custom setup.",
   },
   {
     question: "Do you provide all the equipment?",
     answer:
-      "Everything is provided: Sony Alpha 7 IV, ZV-1 and ZV-E10 cameras, Sony and Tamron lenses, DJI Mic 2 and Rode PodMic microphones through a RodeCaster Duo, Godox lighting, a Desview T12S teleprompter, and an acoustically treated, air-conditioned room. Just bring yourself and your ideas.",
+      "Yes. Cameras, lenses, microphones, lighting and a teleprompter are set up and waiting in an acoustically treated, air-conditioned room. Just bring yourself and your ideas. Want the exact equipment list? Ask us on WhatsApp.",
   },
   {
     question: "How long does delivery take?",

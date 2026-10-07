@@ -2,9 +2,9 @@ import { YouTubeEmbed } from "./youtube-embed";
 import { site } from "@/lib/site";
 
 const highlights = [
-  { title: "Multi-camera", detail: "Synced Sony camera angles" },
-  { title: "Lighting", detail: "Godox key, fill and RGB" },
-  { title: "Microphones", detail: "Rode PodMic and DJI Mic 2" },
+  { title: "Multi-camera", detail: "Up to three synced 4K angles" },
+  { title: "Lighting", detail: "Key, fill and coloured background" },
+  { title: "Microphones", detail: "A mic for every speaker" },
   { title: "The room", detail: "Acoustically treated, air-conditioned" },
 ];
 

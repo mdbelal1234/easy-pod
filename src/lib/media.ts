@@ -20,20 +20,20 @@ export const photos = {
     hint: "Still from the tour video or a second wide angle",
   },
   cameras: {
-    alt: "Sony Alpha 7 IV on its rig, framed on the host chair",
-    hint: "Sony A7 IV on its rig",
+    alt: "A camera framed on the host chair",
+    hint: "Main camera framed on the host chair",
   },
   lenses: {
-    alt: "Sony and Tamron lenses lined up on the bench",
+    alt: "Camera lenses lined up on the bench",
     hint: "The lens line-up",
   },
   lighting: {
-    alt: "Godox key light and RGB background lights",
-    hint: "Godox key light or the RGB background",
+    alt: "Key light and coloured background lights on set",
+    hint: "Key light or the coloured background",
   },
   audio: {
-    alt: "RodeCaster Duo and Rode PodMic on the desk",
-    hint: "RodeCaster Duo top-down, PodMic in use",
+    alt: "Microphones and the audio mixer on the desk",
+    hint: "Mic in use, or the mixer from above",
   },
   room: {
     alt: "The acoustically treated recording room",
