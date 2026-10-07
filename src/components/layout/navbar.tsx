@@ -20,6 +20,7 @@ const navLinks = [
 export function Navbar() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [current, setCurrent] = useState<string | null>(null);
   const sentinel = useRef<HTMLDivElement>(null);
   const close = () => setOpen(false);
 
@@ -31,6 +32,25 @@ export function Navbar() {
       setScrolled(!entry.isIntersecting)
     );
     observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  // Highlight the link for whichever section crosses the middle of the viewport.
+  useEffect(() => {
+    const sections = navLinks
+      .map((link) => document.getElementById(link.href.slice(2)))
+      .filter((el): el is HTMLElement => el !== null);
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const { isIntersecting, target } of entries) {
+          setCurrent((prev) =>
+            isIntersecting ? target.id : prev === target.id ? null : prev
+          );
+        }
+      },
+      { rootMargin: "-45% 0px -50% 0px" }
+    );
+    sections.forEach((el) => observer.observe(el));
     return () => observer.disconnect();
   }, []);
 
@@ -58,30 +78,45 @@ export function Navbar() {
           </Link>
 
           <ul className="hidden items-center gap-8 md:flex">
-            {navLinks.map((link) => (
-              <li key={link.href}>
-                <Link
-                  href={link.href}
-                  className="py-2 text-sm text-muted-ink transition-colors hover:text-paper"
-                >
-                  {link.label}
-                </Link>
-              </li>
-            ))}
+            {navLinks.map((link) => {
+              const active = current === link.href.slice(2);
+              return (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    aria-current={active ? "location" : undefined}
+                    className={cn(
+                      "relative py-2 text-sm transition-colors hover:text-paper",
+                      "after:absolute after:inset-x-0 after:-bottom-px after:h-px after:origin-left after:bg-tally after:transition-transform after:duration-300",
+                      active ? "text-paper after:scale-x-100" : "text-muted-ink after:scale-x-0"
+                    )}
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              );
+            })}
           </ul>
 
           <ButtonLink href="/#book" className="hidden h-10 px-5 text-sm md:inline-flex">
             Book a session
           </ButtonLink>
 
-          <button
-            className="-mr-2 p-2 text-paper md:hidden"
-            onClick={() => setOpen(!open)}
-            aria-label={open ? "Close menu" : "Open menu"}
-            aria-expanded={open}
-          >
-            {open ? <X className="size-5" /> : <Menu className="size-5" />}
-          </button>
+          <div className="flex items-center gap-1 md:hidden">
+            {!open && (
+              <ButtonLink href="/#book" className="h-9 px-3.5 text-sm">
+                Book a session
+              </ButtonLink>
+            )}
+            <button
+              className="-mr-2 p-2.5 text-paper"
+              onClick={() => setOpen(!open)}
+              aria-label={open ? "Close menu" : "Open menu"}
+              aria-expanded={open}
+            >
+              {open ? <X className="size-5" /> : <Menu className="size-5" />}
+            </button>
+          </div>
         </nav>
 
         <AnimatePresence>

@@ -173,6 +173,7 @@
   --border: rgb(241 238 232 / 0.12);
   --input: rgb(241 238 232 / 0.22);
   --ring: #f0533a;
+  --destructive: #ff6a4d;
   --radius: 0.25rem;
 
   color-scheme: dark;

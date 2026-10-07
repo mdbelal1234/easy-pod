@@ -2,9 +2,9 @@ import { z } from "zod";
 import { packageSlugs } from "@/lib/packages";
 
 export const bookingSchema = z.object({
-  name: z.string().min(2, "Name must be at least 2 characters"),
-  email: z.string().email("Invalid email address"),
-  phone: z.string().min(10, "Valid phone number required"),
+  name: z.string().trim().min(2, "Enter your name"),
+  email: z.string().trim().email("Enter an email like name@example.com"),
+  phone: z.string().trim().min(10, "Enter a phone number we can reach you on"),
   company: z.string().optional(),
   package: z.union([z.enum(packageSlugs), z.literal("")]).optional(),
   recordingType: z.enum([
@@ -15,9 +15,9 @@ export const bookingSchema = z.object({
     "SHORTS_REELS",
     "CORPORATE",
     "OTHER",
-  ]),
-  preferredDate: z.string().min(1, "Date is required"),
-  preferredTime: z.string().min(1, "Time is required"),
+  ], { error: "Choose what you're recording" }),
+  preferredDate: z.string().min(1, "Pick a date"),
+  preferredTime: z.string({ error: "Pick a start time" }).min(1, "Pick a start time"),
   notes: z.string().optional(),
 });
 

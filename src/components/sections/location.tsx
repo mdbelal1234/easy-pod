@@ -55,11 +55,11 @@ export function LocationSection() {
             <ButtonLink
               href={waLink("Hi! I'd like to visit the EasyPod studio in Dhaka.")}
               variant="line"
-              className="flex-1"
+              className="sm:flex-1"
             >
               Chat on WhatsApp
             </ButtonLink>
-            <ButtonLink href={site.mapsLink} variant="line" className="flex-1">
+            <ButtonLink href={site.mapsLink} variant="line" className="sm:flex-1">
               Directions
               <ArrowUpRight />
             </ButtonLink>

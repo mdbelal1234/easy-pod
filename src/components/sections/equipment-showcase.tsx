@@ -1,7 +1,6 @@
 "use client";
 
 import { useId, useRef, useState } from "react";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Photo } from "@/components/site/photo";
 import { photos, type PhotoSlot } from "@/lib/media";
 import { cn } from "@/lib/utils";
@@ -107,9 +106,7 @@ const groups: { label: string; photo: PhotoSlot; lead: string; points: Point[] }
 export function EquipmentShowcase() {
   const [active, setActive] = useState(0);
   const tabs = useRef<(HTMLButtonElement | null)[]>([]);
-  const reduce = useReducedMotion();
   const id = useId();
-  const group = groups[active];
 
   const onKeyDown = (e: React.KeyboardEvent, i: number) => {
     const delta = { ArrowDown: 1, ArrowRight: 1, ArrowUp: -1, ArrowLeft: -1 }[e.key];
@@ -122,7 +119,8 @@ export function EquipmentShowcase() {
 
   return (
     <section id="studio" className="scroll-mt-16 border-t border-paper/10 bg-ink-2/40 py-24 lg:py-32">
-      <div className="mx-auto grid max-w-[1400px] grid-cols-[minmax(0,1fr)] gap-12 px-4 sm:px-6 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-20 lg:px-10">
+      {/* Mobile: heading and tabs, the panel, then the WhatsApp line. Desktop: tabs beside the panel. */}
+      <div className="mx-auto grid max-w-[1400px] grid-cols-[minmax(0,1fr)] gap-x-20 px-4 sm:px-6 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:grid-rows-[auto_1fr] lg:px-10">
         <div>
           <h2 className="reveal font-display-wide text-4xl leading-[1.02] sm:text-5xl">
             What the studio does for you.
@@ -143,7 +141,7 @@ export function EquipmentShowcase() {
                 role="tab"
                 id={`${id}-tab-${i}`}
                 aria-selected={i === active}
-                aria-controls={`${id}-panel`}
+                aria-controls={`${id}-panel-${i}`}
                 tabIndex={i === active ? 0 : -1}
                 onClick={() => setActive(i)}
                 onKeyDown={(e) => onKeyDown(e, i)}
@@ -159,8 +157,8 @@ export function EquipmentShowcase() {
                   <span
                     aria-hidden
                     className={cn(
-                      "hidden size-2 rounded-[2px] transition-colors lg:block",
-                      i === active ? "bg-tally" : "bg-transparent"
+                      "hidden h-2 w-5 origin-left rounded-[2px] transition-[transform,background-color] duration-300 ease-out lg:block",
+                      i === active ? "bg-tally" : "scale-x-0 bg-paper/40 group-hover:scale-x-40"
                     )}
                   />
                   {g.label}
@@ -168,54 +166,60 @@ export function EquipmentShowcase() {
               </button>
             ))}
           </div>
-
-          <p className="mt-8 text-sm text-muted-ink">
-            Want the exact equipment list?{" "}
-            <a
-              href={waLink("Hi! Could you share the full equipment list for EasyPod Studio?")}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-paper underline decoration-tally underline-offset-4 hover:text-tally"
-            >
-              Ask us on WhatsApp
-            </a>
-          </p>
         </div>
 
-        <div
-          role="tabpanel"
-          id={`${id}-panel`}
-          aria-labelledby={`${id}-tab-${active}`}
-        >
-          <AnimatePresence mode="wait" initial={false}>
-            <motion.div
-              key={group.label}
-              initial={reduce ? false : { opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={reduce ? undefined : { opacity: 0, y: -6 }}
-              transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
-            >
-              <div className="relative aspect-[4/3] overflow-hidden rounded-tight sm:aspect-[16/10]">
-                <Photo slot={group.photo} sizes="(min-width: 1024px) 55vw, 100vw" />
+        {/* Every panel shares one grid cell, so the section keeps the height of
+            the tallest and switching tabs never shifts the page below. */}
+        <div className="mt-8 grid lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:mt-0">
+          {groups.map((g, i) => {
+            const on = i === active;
+            return (
+              <div
+                key={g.label}
+                role="tabpanel"
+                id={`${id}-panel-${i}`}
+                aria-labelledby={`${id}-tab-${i}`}
+                aria-hidden={!on}
+                inert={!on}
+                className={cn(
+                  "col-start-1 row-start-1 transition-[opacity,transform,visibility] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:transition-none",
+                  on ? "visible opacity-100" : "invisible translate-y-2 opacity-0"
+                )}
+              >
+                <div className="relative aspect-[4/3] overflow-hidden rounded-tight sm:aspect-[16/10]">
+                  <Photo slot={g.photo} sizes="(min-width: 1024px) 55vw, 100vw" />
+                </div>
+
+                <p className="mt-8 max-w-[52ch] text-pretty text-xl leading-snug text-paper">
+                  {g.lead}
+                </p>
+
+                <ul className="mt-8 grid gap-x-8 gap-y-7 sm:grid-cols-2">
+                  {g.points.map((point) => (
+                    <li key={point.title}>
+                      <p className="font-medium text-paper">{point.title}</p>
+                      <p className="mt-2 text-sm leading-relaxed text-muted-ink">
+                        {point.body}
+                      </p>
+                    </li>
+                  ))}
+                </ul>
               </div>
-
-              <p className="mt-8 max-w-[52ch] text-pretty text-xl leading-snug text-paper">
-                {group.lead}
-              </p>
-
-              <ul className="mt-8 grid gap-x-8 gap-y-7 sm:grid-cols-2">
-                {group.points.map((point) => (
-                  <li key={point.title}>
-                    <p className="font-medium text-paper">{point.title}</p>
-                    <p className="mt-2 text-sm leading-relaxed text-muted-ink">
-                      {point.body}
-                    </p>
-                  </li>
-                ))}
-              </ul>
-            </motion.div>
-          </AnimatePresence>
+            );
+          })}
         </div>
+
+        <p className="mt-10 text-sm text-muted-ink lg:mt-8">
+          Want the exact equipment list?{" "}
+          <a
+            href={waLink("Hi! Could you share the full equipment list for EasyPod Studio?")}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-paper underline decoration-tally underline-offset-4 hover:text-tally"
+          >
+            Ask us on WhatsApp
+          </a>
+        </p>
       </div>
     </section>
   );

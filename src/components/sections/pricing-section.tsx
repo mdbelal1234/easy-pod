@@ -14,7 +14,6 @@ const rows: { label: string; values: [Cell, Cell, Cell] }[] = [
   { label: "Lighting", values: ["Professional", "Creative setup", "Premium cinematic"] },
   { label: "On the floor", values: ["Technical help", "Technical help", "Dedicated assistant"] },
   { label: "Priority production support", values: [false, false, true] },
-  { label: "Raw footage handover", values: [true, true, true] },
 ];
 
 const included =
@@ -43,9 +42,6 @@ export function PricingSection() {
     <section id="pricing" className="scroll-mt-16 border-t border-paper/10 py-24 lg:py-32">
       <div className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-10">
         <div className="reveal max-w-2xl">
-          <p className="mb-4 font-mono text-xs uppercase tracking-[0.18em] text-tally">
-            Hourly rates
-          </p>
           <h2 className="font-display-wide text-4xl leading-[1.02] sm:text-5xl lg:text-6xl">
             Pay for the cameras you need.
           </h2>
@@ -157,13 +153,13 @@ export function PricingSection() {
           </tbody>
         </table>
 
-        {/* Mobile and tablet: one block per plan */}
-        <div className="mt-12 grid gap-4 md:grid-cols-3 lg:hidden">
+        {/* Phone: swipeable row with the next plan peeking in. Tablet: three columns. */}
+        <div className="relative -mx-4 mt-12 flex snap-x snap-mandatory scroll-px-4 gap-3 overflow-x-auto px-4 pb-2 [scrollbar-width:none] sm:-mx-6 sm:scroll-px-6 sm:px-6 md:mx-0 md:grid md:grid-cols-3 md:gap-4 md:overflow-visible md:px-0 md:pb-0 lg:hidden">
           {plans.map((plan, p) => (
             <div
               key={plan.name}
               className={cn(
-                "rounded-tight border p-6",
+                "w-[84%] max-w-sm shrink-0 snap-start rounded-tight border p-6 md:w-auto md:max-w-none",
                 plan.featured ? "border-tally bg-ink-2" : "border-paper/10"
               )}
             >

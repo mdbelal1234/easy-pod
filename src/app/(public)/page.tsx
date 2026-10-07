@@ -13,7 +13,7 @@ import { site } from "@/lib/site";
 export const metadata: Metadata = {
   title: "Podcast Studio Dhaka | Video Podcast Recording & Production",
   description:
-    "EasyPod is Bangladesh's premium video podcast studio in Dhaka. Multi-camera recording, studio-grade audio, expert lighting, editing, and short-form content — all in one place. Book your session.",
+    "EasyPod is Bangladesh's premium video podcast studio in Dhaka. Multi-camera recording, studio-grade audio, expert lighting, editing, and short-form content, all in one place. Book your session.",
   alternates: { canonical: "/" },
   keywords: [
     "podcast studio dhaka",
