@@ -1,16 +1,13 @@
 import type { Metadata } from "next";
 import { HeroSection } from "@/components/sections/hero";
-import { TrustBar } from "@/components/sections/trust-bar";
 import { StudioTour } from "@/components/sections/studio-tour";
 import { EquipmentShowcase } from "@/components/sections/equipment-showcase";
-import { WhyChoose } from "@/components/sections/why-choose";
 import { PricingSection } from "@/components/sections/pricing-section";
-import { TestimonialsSection } from "@/components/sections/testimonials";
 import { BookingProcess } from "@/components/sections/booking-process";
+import { BookingSection } from "@/components/sections/booking-section";
 import { FAQSection } from "@/components/sections/faq-section";
 import { faqs } from "@/components/sections/faqs-data";
 import { LocationSection } from "@/components/sections/location";
-import { CTASection } from "@/components/sections/cta-section";
 import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -48,7 +45,7 @@ function StructuredData() {
         "@id": `${site.url}/#business`,
         name: site.name,
         description:
-          "Premium video podcast recording and production studio in Dhaka, Bangladesh offering Sony & DJI multi-camera recording, RodeCaster Duo studio-grade audio, Godox cinematic lighting, professional editing, and short-form content.",
+          "Premium video podcast recording and production studio in Dhaka, Bangladesh offering Sony multi-camera recording, RodeCaster Duo studio-grade audio, Godox cinematic lighting, professional editing, and short-form content.",
         url: site.url,
         email: site.email,
         telephone: site.phone,
@@ -62,11 +59,6 @@ function StructuredData() {
           addressCountry: site.address.country,
         },
         areaServed: "Dhaka, Bangladesh",
-        aggregateRating: {
-          "@type": "AggregateRating",
-          ratingValue: "4.9",
-          reviewCount: "50",
-        },
         sameAs: Object.values(site.social),
       },
       {
@@ -96,16 +88,13 @@ export default function HomePage() {
     <>
       <StructuredData />
       <HeroSection />
-      <TrustBar />
       <StudioTour />
       <EquipmentShowcase />
-      <WhyChoose />
       <PricingSection />
-      <TestimonialsSection />
       <BookingProcess />
+      <BookingSection />
       <FAQSection />
       <LocationSection />
-      <CTASection consultation />
     </>
   );
 }

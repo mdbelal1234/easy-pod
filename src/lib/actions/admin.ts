@@ -72,37 +72,7 @@ export async function updateLeadStatus(
   return { success: true };
 }
 
-// ─── CRUD helpers ─────────────────────────────────────────────────────────────
-
-export async function deleteTestimonial(id: string) {
-  await requireAdmin();
-  await prisma.testimonial.update({ where: { id }, data: { deletedAt: new Date() } });
-  revalidatePath("/admin/testimonials");
-}
-
-export async function deleteFAQ(id: string) {
-  await requireAdmin();
-  await prisma.fAQ.update({ where: { id }, data: { deletedAt: new Date() } });
-  revalidatePath("/admin/faqs");
-}
-
-export async function deleteService(id: string) {
-  await requireAdmin();
-  await prisma.service.update({ where: { id }, data: { deletedAt: new Date() } });
-  revalidatePath("/admin/services");
-}
-
-export async function deletePackage(id: string) {
-  await requireAdmin();
-  await prisma.package.update({ where: { id }, data: { deletedAt: new Date() } });
-  revalidatePath("/admin/packages");
-}
-
-export async function deleteGallery(id: string) {
-  await requireAdmin();
-  await prisma.gallery.update({ where: { id }, data: { deletedAt: new Date() } });
-  revalidatePath("/admin/gallery");
-}
+// ─── Settings ─────────────────────────────────────────────────────────────────
 
 export async function upsertSiteSetting(key: string, value: string, group = "general") {
   await requireAdmin();

@@ -49,6 +49,19 @@
   /* Purple accent */
   --color-purple: var(--purple);
   --color-purple-foreground: var(--purple-foreground);
+
+  /* Public site ("On Air"): warm charcoal + one tally-light accent */
+  --font-display: var(--font-archivo);
+  --font-text: var(--font-geist);
+  --color-ink: #141311;
+  --color-ink-2: #1d1b19;
+  --color-ink-3: #282522;
+  --color-paper: #f1eee8;
+  --color-muted-ink: #aaa59d;
+  --color-dim: #8c877f;
+  --color-tally: #f0533a;
+  --color-tally-hover: #ff6a4d;
+  --radius-tight: 4px;
 }
 
 :root {
@@ -138,17 +151,143 @@
   }
 }
 
-@layer utilities {
-  .text-gradient {
-    @apply bg-gradient-to-r from-purple-400 to-purple-600 bg-clip-text text-transparent;
+/* ---------- Public site ---------- */
+
+.site {
+  /* Re-point the shadcn tokens so form controls and popovers inside the
+     public site render in the dark "On Air" palette. Admin keeps :root. */
+  --background: #141311;
+  --foreground: #f1eee8;
+  --card: #1d1b19;
+  --card-foreground: #f1eee8;
+  --popover: #1d1b19;
+  --popover-foreground: #f1eee8;
+  --primary: #f0533a;
+  --primary-foreground: #141311;
+  --secondary: #282522;
+  --secondary-foreground: #f1eee8;
+  --muted: #1d1b19;
+  --muted-foreground: #aaa59d;
+  --accent: #282522;
+  --accent-foreground: #f1eee8;
+  --border: rgb(241 238 232 / 0.12);
+  --input: rgb(241 238 232 / 0.22);
+  --ring: #f0533a;
+  --radius: 0.25rem;
+
+  color-scheme: dark;
+  background: var(--color-ink);
+  color: var(--color-paper);
+  font-family: var(--font-text), ui-sans-serif, system-ui, sans-serif;
+}
+
+/* Roomier form controls on the public site. */
+.site [data-slot="input"] {
+  height: 2.75rem;
+  padding-inline: 0.875rem;
+}
+.site [data-slot="textarea"] {
+  padding: 0.75rem 0.875rem;
+}
+
+/* Smooth open/close for <details> where ::details-content is supported. */
+.site {
+  interpolate-size: allow-keywords;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .site details::details-content {
+    block-size: 0;
+    overflow: hidden;
+    transition:
+      block-size 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+      content-visibility 0.35s allow-discrete;
   }
-  .bg-grid {
-    background-image: linear-gradient(
-        to right,
-        oklch(1 0 0 / 4%) 1px,
-        transparent 1px
-      ),
-      linear-gradient(to bottom, oklch(1 0 0 / 4%) 1px, transparent 1px);
-    background-size: 40px 40px;
+  .site details[open]::details-content {
+    block-size: auto;
+  }
+}
+
+.site ::selection {
+  background: var(--color-tally);
+  color: var(--color-ink);
+}
+
+.site :focus-visible {
+  outline: 2px solid var(--color-tally);
+  outline-offset: 3px;
+}
+
+/* Film grain: fixed, non-scrolling layer so it never repaints on scroll. */
+.site::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Archivo stretched wide: reads like a broadcast station ident. */
+@utility font-display-wide {
+  font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
+  font-stretch: 118%;
+  font-weight: 700;
+  letter-spacing: -0.035em;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(0.6em);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes reveal {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes fill-x {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Load-in for above-the-fold copy. Stagger with --d on each element. */
+  .rise {
+    animation: rise 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+    animation-delay: var(--d, 0ms);
+  }
+
+  /* Scroll reveal via scroll-driven animations; browsers without support
+     simply show the content. */
+  @supports (animation-timeline: view()) {
+    .reveal {
+      animation: reveal linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 40%;
+    }
+    .scroll-fill {
+      transform-origin: left;
+      animation: fill-x linear both;
+      animation-timeline: view();
+      animation-range: entry 60% cover 55%;
+    }
   }
 }

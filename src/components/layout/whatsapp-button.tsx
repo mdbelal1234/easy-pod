@@ -1,28 +1,17 @@
-"use client";
-
-import { motion } from "framer-motion";
-import { MessageCircle } from "lucide-react";
+import { siWhatsapp } from "simple-icons";
+import { BrandIcon } from "@/components/site/brand-icon";
+import { waLink } from "@/lib/site";
 
 export function WhatsAppButton() {
-  const number = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "8801XXXXXXXXX";
-  const message = encodeURIComponent(
-    "Hi! I'm interested in booking a podcast session at Easy Pod."
-  );
-
   return (
-    <motion.a
-      href={`https://wa.me/${number}?text=${message}`}
+    <a
+      href={waLink("Hi! I'm interested in booking a podcast session at EasyPod Studio.")}
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Chat on WhatsApp"
-      className="fixed bottom-6 right-6 z-50 w-14 h-14 bg-[#25D366] hover:bg-[#1fbe5a] rounded-full flex items-center justify-center shadow-lg shadow-green-500/30"
-      initial={{ scale: 0, opacity: 0 }}
-      animate={{ scale: 1, opacity: 1 }}
-      transition={{ delay: 2, type: "spring", stiffness: 200 }}
-      whileHover={{ scale: 1.1 }}
-      whileTap={{ scale: 0.95 }}
+      className="fixed bottom-5 right-5 z-50 flex size-12 items-center justify-center rounded-tight border border-paper/15 bg-ink-2 text-[#25D366] shadow-[0_12px_32px_-12px_rgb(0_0_0/0.6)] transition-[transform,border-color] duration-200 hover:-translate-y-0.5 hover:border-paper/40 active:translate-y-px"
     >
-      <MessageCircle className="w-7 h-7 text-white fill-white" />
-    </motion.a>
+      <BrandIcon icon={siWhatsapp} className="size-6" />
+    </a>
   );
 }

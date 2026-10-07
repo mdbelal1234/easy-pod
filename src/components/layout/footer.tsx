@@ -1,94 +1,89 @@
 import Link from "next/link";
-import { Mic, Share2, MessageCircle, Play, Send } from "lucide-react";
+import { siFacebook, siInstagram, siTiktok, siYoutube } from "simple-icons";
+import { BrandIcon } from "@/components/site/brand-icon";
+import { site } from "@/lib/site";
 
-const footerLinks = {
-  Company: [
-    { href: "/about", label: "About Us" },
-    { href: "/studio", label: "Our Studio" },
-    { href: "/contact", label: "Contact" },
-  ],
-  Services: [
-    { href: "/services#podcast-recording", label: "Podcast Recording" },
-    { href: "/services#video-podcast", label: "Video Podcast" },
-    { href: "/services#editing", label: "Editing & Post" },
-    { href: "/services#live-streaming", label: "Live Streaming" },
-    { href: "/services#shorts", label: "Shorts & Reels" },
-  ],
-  Resources: [
-    { href: "/pricing", label: "Pricing" },
-    { href: "/booking", label: "Book a Session" },
-    { href: "/contact", label: "Get a Quote" },
-  ],
-};
+const footerLinks = [
+  { href: "/#studio", label: "Studio" },
+  { href: "/#pricing", label: "Pricing" },
+  { href: "/#process", label: "How it works" },
+  { href: "/#book", label: "Book a session" },
+  { href: "/#faq", label: "FAQ" },
+  { href: "/#contact", label: "Contact" },
+];
 
 const socialLinks = [
-  { href: "https://facebook.com/easypodstudio", Icon: Share2, label: "Facebook" },
-  { href: "https://instagram.com/easypodstudio", Icon: MessageCircle, label: "Instagram" },
-  { href: "https://youtube.com/@easypodstudio", Icon: Play, label: "YouTube" },
-  { href: "https://twitter.com/easypodstudio", Icon: Send, label: "Twitter" },
+  { href: site.social.instagram, icon: siInstagram, label: "Instagram" },
+  { href: site.social.youtube, icon: siYoutube, label: "YouTube" },
+  { href: site.social.facebook, icon: siFacebook, label: "Facebook" },
+  { href: site.social.tiktok, icon: siTiktok, label: "TikTok" },
 ];
 
 export function Footer() {
   return (
-    <footer className="bg-black border-t border-white/10">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12">
-          {/* Brand */}
-          <div className="lg:col-span-2">
-            <Link href="/" className="flex items-center gap-2 mb-4">
-              <div className="w-9 h-9 bg-purple-600 rounded-lg flex items-center justify-center">
-                <Mic className="w-5 h-5 text-white" />
-              </div>
-              <span className="text-white font-bold text-xl">EasyPod</span>
-            </Link>
-            <p className="text-white/50 text-sm leading-relaxed max-w-xs">
-              Bangladesh&apos;s premium video podcast studio. Record, produce, and
-              grow studio-quality content in Gulshan, Dhaka.
+    <footer className="overflow-hidden border-t border-paper/10">
+      <div className="mx-auto max-w-[1400px] px-4 pt-16 sm:px-6 lg:px-10">
+        <div className="grid gap-12 md:grid-cols-[1.4fr_repeat(3,1fr)]">
+          <div className="max-w-xs">
+            <p className="text-sm leading-relaxed text-muted-ink">
+              A video podcast studio in Vatara, Dhaka. Book an hour, bring your
+              guests, leave with the footage.
             </p>
-            <div className="flex items-center gap-3 mt-6">
-              {socialLinks.map(({ href, Icon, label }) => (
-                <a
-                  key={href}
-                  href={href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={label}
-                  className="w-9 h-9 bg-white/5 hover:bg-purple-600/30 border border-white/10 hover:border-purple-500/50 rounded-lg flex items-center justify-center text-white/50 hover:text-white transition-all"
-                >
-                  <Icon className="w-4 h-4" />
-                </a>
+            <address className="mt-6 space-y-1 text-sm not-italic text-muted-ink">
+              <a href={`mailto:${site.email}`} className="block hover:text-paper">
+                {site.email}
+              </a>
+              <a
+                href={`tel:${site.phone.replace(/\s/g, "")}`}
+                className="block hover:text-paper"
+              >
+                {site.phone}
+              </a>
+            </address>
+            <ul className="mt-6 flex gap-5">
+              {socialLinks.map(({ href, icon, label }) => (
+                <li key={label}>
+                  <a
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={label}
+                    className="text-dim transition-colors hover:text-paper"
+                  >
+                    <BrandIcon icon={icon} className="size-[18px]" />
+                  </a>
+                </li>
               ))}
-            </div>
+            </ul>
           </div>
 
-          {/* Links */}
-          {Object.entries(footerLinks).map(([title, links]) => (
-            <div key={title}>
-              <h3 className="text-white font-semibold text-sm mb-4">{title}</h3>
-              <ul className="space-y-3">
-                {links.map((link) => (
-                  <li key={link.href}>
-                    <Link
-                      href={link.href}
-                      className="text-white/50 hover:text-white text-sm transition-colors"
-                    >
-                      {link.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
+          <nav aria-label="Footer" className="md:col-span-3 md:justify-self-end">
+            <ul className="grid grid-cols-2 gap-x-16 gap-y-2.5 sm:grid-cols-3">
+              {footerLinks.map((link) => (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    className="text-sm text-paper/85 transition-colors hover:text-tally"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
         </div>
 
-        <div className="mt-16 pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-white/40 text-sm">
-            © {new Date().getFullYear()} EasyPod Studio. All rights reserved.
-          </p>
-          <p className="text-white/40 text-sm">
-            Gulshan, Dhaka, Bangladesh · hello@easypod.studio
-          </p>
+        <div className="mt-16 flex flex-col gap-2 text-xs text-dim sm:flex-row sm:justify-between">
+          <p>© {new Date().getFullYear()} EasyPod Studio</p>
+          <p>Salam Tower, Vatara, Dhaka</p>
         </div>
+
+        <p
+          aria-hidden
+          className="font-display-wide -mb-[0.2em] mt-6 select-none text-[clamp(4rem,19vw,17rem)] leading-none text-ink-3"
+        >
+          easypod
+        </p>
       </div>
     </footer>
   );

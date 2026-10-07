@@ -1,219 +1,211 @@
 "use client";
 
-import { motion } from "framer-motion";
-import {
-  Camera,
-  Aperture,
-  Smartphone,
-  Sliders,
-  Mic2,
-  Layers,
-  Presentation,
-  Volume2,
-  Focus,
-  Frame,
-  ZoomIn,
-  SunMedium,
-} from "lucide-react";
-import { fadeInUp, staggerContainer } from "@/lib/motion";
+import { useId, useRef, useState } from "react";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { Photo } from "@/components/site/photo";
+import { photos, type PhotoSlot } from "@/lib/media";
+import { cn } from "@/lib/utils";
 
-type Item = {
-  icon: typeof Camera;
-  name: string;
-  spec: string;
-  benefit: string;
-};
+type Item = { name: string; role: string; benefit: string };
 
-const groups: { category: string; accent: string; items: Item[] }[] = [
+const groups: { label: string; photo: PhotoSlot; items: Item[] }[] = [
   {
-    category: "Professional Multi-Camera Setup",
-    accent: "text-purple-300",
+    label: "Cameras",
+    photo: photos.cameras,
     items: [
       {
-        icon: Camera,
         name: "Sony Alpha 7 IV",
-        spec: "Full-frame hero camera",
-        benefit:
-          "Cinematic, full-frame footage that makes your podcast look like a premium TV show — not a webcam.",
+        role: "Full-frame main camera",
+        benefit: "Cinematic footage that looks like a TV production, not a webcam call.",
       },
       {
-        icon: Aperture,
         name: "Sony ZV-1",
-        spec: "Compact creator camera",
-        benefit:
-          "Crisp, flattering close-ups with beautiful background blur, so every guest looks their best on camera.",
+        role: "Close-up camera",
+        benefit: "Sharp, flattering close-ups with a soft background.",
       },
       {
-        icon: Smartphone,
-        name: "DJI Osmo Pocket 3",
-        spec: "Dynamic angle",
-        benefit:
-          "Smooth, gimbal-stabilised B-roll and reaction shots that keep long episodes visually engaging.",
+        name: "Sony ZV-E10",
+        role: "Second-angle camera",
+        benefit: "An extra interchangeable-lens angle that matches the main camera's colour.",
       },
     ],
   },
   {
-    category: "Premium Lens Collection",
-    accent: "text-sky-300",
+    label: "Lenses",
+    photo: photos.lenses,
     items: [
       {
-        icon: Focus,
         name: "Sony FE 85mm F1.8",
-        spec: "Portrait prime",
-        benefit:
-          "Beautiful background blur for flattering, magazine-style portrait close-ups of hosts and guests.",
+        role: "Portrait prime",
+        benefit: "Magazine-style portraits of hosts and guests.",
       },
       {
-        icon: Frame,
         name: "Tamron 17-28mm F2.8",
-        spec: "Wide-angle zoom",
-        benefit:
-          "Wide, cinematic establishing shots that capture the full energy of the studio in one frame.",
+        role: "Wide zoom",
+        benefit: "Establishing shots that take in the whole set.",
       },
       {
-        icon: ZoomIn,
         name: "Sony 18-105mm F4",
-        spec: "Versatile zoom",
-        benefit:
-          "One lens for product shots and cinematic B-roll, so every angle stays sharp without a lens change.",
+        role: "Standard zoom",
+        benefit: "Product shots and B-roll without a lens change.",
       },
     ],
   },
   {
-    category: "Professional Lighting",
-    accent: "text-amber-300",
+    label: "Lighting",
+    photo: photos.lighting,
     items: [
       {
-        icon: SunMedium,
-        name: "Godox SL60II Series",
-        spec: "Key & fill lighting",
-        benefit:
-          "Adjustable, colour-accurate key and fill lights that give every shot a soft, cinematic studio look.",
+        name: "Godox SL60II",
+        role: "Key and fill",
+        benefit: "Soft, colour-accurate light on every face.",
       },
       {
-        icon: Presentation,
-        name: "Godox RGB Lighting",
-        spec: "LC500R & background lights",
-        benefit:
-          "Full-colour RGB accents and background lighting that add mood and brand personality to your set.",
+        name: "Godox LC500R and RGB",
+        role: "Background lighting",
+        benefit: "Colour accents that set the mood and match your brand.",
       },
     ],
   },
   {
-    category: "Audio",
-    accent: "text-fuchsia-300",
+    label: "Audio",
+    photo: photos.audio,
     items: [
       {
-        icon: Sliders,
         name: "RodeCaster Duo",
-        spec: "Production console",
-        benefit:
-          "A broadcast-grade mixer that delivers clean, balanced sound and instant effects — no post-production guesswork.",
+        role: "Production console",
+        benefit: "Levels mixed live, so there is less to fix later.",
       },
       {
-        icon: Mic2,
-        name: "DJI Mic 2 & Rode PodMic",
-        spec: "Wireless + dynamic mics",
-        benefit:
-          "Warm, radio-quality voice with background noise rejected, so your audience hears every word clearly.",
+        name: "Rode PodMic and DJI Mic 2",
+        role: "Dynamic and wireless mics",
+        benefit: "A warm, close voice with room noise kept out.",
       },
     ],
   },
   {
-    category: "Production",
-    accent: "text-emerald-300",
+    label: "The room",
+    photo: photos.room,
     items: [
       {
-        icon: Layers,
-        name: "Multi-Camera Recording",
-        spec: "Synced angles",
-        benefit:
-          "Multiple synced angles edited into one dynamic episode that holds attention from intro to outro.",
+        name: "Acoustic treatment",
+        role: "Controlled room",
+        benefit: "Treated walls stop echo before it reaches the mic.",
       },
       {
-        icon: Volume2,
-        name: "Acoustic Treatment",
-        spec: "Controlled room",
-        benefit:
-          "A sound-treated room that kills echo and noise, giving you a clean recording every single session.",
+        name: "Desview T12S",
+        role: "Teleprompter",
+        benefit: "Read intros and scripts while keeping eye contact with the lens.",
+      },
+      {
+        name: "Synced multi-cam",
+        role: "Recording",
+        benefit: "Every angle recorded together, ready to cut into one edit.",
       },
     ],
   },
 ];
 
 export function EquipmentShowcase() {
+  const [active, setActive] = useState(0);
+  const tabs = useRef<(HTMLButtonElement | null)[]>([]);
+  const reduce = useReducedMotion();
+  const id = useId();
+  const group = groups[active];
+
+  const onKeyDown = (e: React.KeyboardEvent, i: number) => {
+    const delta = { ArrowDown: 1, ArrowRight: 1, ArrowUp: -1, ArrowLeft: -1 }[e.key];
+    if (!delta) return;
+    e.preventDefault();
+    const next = (i + delta + groups.length) % groups.length;
+    setActive(next);
+    tabs.current[next]?.focus();
+  };
+
   return (
-    <section className="relative overflow-hidden bg-zinc-950 py-24 [content-visibility:auto] [contain-intrinsic-size:auto_1400px]">
-      <div className="pointer-events-none absolute inset-0 bg-grid opacity-20" />
-
-      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <motion.div
-          className="mb-16 text-center"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-        >
-          <p className="mb-3 text-sm font-semibold uppercase tracking-wider text-purple-400">
-            The Gear
-          </p>
-          <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl lg:text-5xl">
-            Pro Equipment, Working for You
+    <section id="studio" className="scroll-mt-16 border-t border-paper/10 bg-ink-2/40 py-24 lg:py-32">
+      <div className="mx-auto grid max-w-[1400px] grid-cols-[minmax(0,1fr)] gap-12 px-4 sm:px-6 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-20 lg:px-10">
+        <div>
+          <h2 className="reveal font-display-wide text-4xl leading-[1.02] sm:text-5xl">
+            The kit, and what it does for you.
           </h2>
-          <p className="mx-auto mt-4 max-w-xl text-white/50">
-            We invested in the gear so you don&apos;t have to. Here&apos;s what
-            it actually means for your content.
-          </p>
-        </motion.div>
 
-        <motion.div
-          className="space-y-12"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          variants={staggerContainer(0.1)}
+          <div
+            role="tablist"
+            aria-label="Studio equipment"
+            aria-orientation="vertical"
+            className="-mx-4 mt-10 flex snap-x scroll-px-4 gap-2 overflow-x-auto px-4 pb-1 [scrollbar-width:none] lg:mx-0 lg:mt-14 lg:flex-col lg:gap-0 lg:overflow-visible lg:px-0"
+          >
+            {groups.map((g, i) => (
+              <button
+                key={g.label}
+                ref={(el) => {
+                  tabs.current[i] = el;
+                }}
+                role="tab"
+                id={`${id}-tab-${i}`}
+                aria-selected={i === active}
+                aria-controls={`${id}-panel`}
+                tabIndex={i === active ? 0 : -1}
+                onClick={() => setActive(i)}
+                onKeyDown={(e) => onKeyDown(e, i)}
+                className={cn(
+                  "group flex shrink-0 snap-start items-baseline justify-between gap-6 rounded-tight border px-4 py-2.5 text-left transition-colors",
+                  "lg:rounded-none lg:border-0 lg:border-t lg:px-0 lg:py-5 lg:last:border-b",
+                  i === active
+                    ? "border-tally text-paper lg:border-paper/10"
+                    : "border-paper/15 text-dim hover:text-paper lg:border-paper/10"
+                )}
+              >
+                <span className="flex items-center gap-3 text-base font-medium lg:font-display-wide lg:text-2xl">
+                  <span
+                    aria-hidden
+                    className={cn(
+                      "hidden size-2 rounded-[2px] transition-colors lg:block",
+                      i === active ? "bg-tally" : "bg-transparent"
+                    )}
+                  />
+                  {g.label}
+                </span>
+                <span className="hidden font-mono text-xs text-dim lg:inline">
+                  {g.items.length} items
+                </span>
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div
+          role="tabpanel"
+          id={`${id}-panel`}
+          aria-labelledby={`${id}-tab-${active}`}
         >
-          {groups.map((group) => (
-            <motion.div key={group.category} variants={staggerContainer(0.06)}>
-              <div className="mb-5 flex items-center gap-4">
-                <h3
-                  className={`text-xs font-semibold uppercase tracking-[0.25em] ${group.accent}`}
-                >
-                  {group.category}
-                </h3>
-                <div className="h-px flex-1 bg-gradient-to-r from-white/15 to-transparent" />
+          <AnimatePresence mode="wait" initial={false}>
+            <motion.div
+              key={group.label}
+              initial={reduce ? false : { opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={reduce ? undefined : { opacity: 0, y: -6 }}
+              transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
+            >
+              <div className="relative aspect-[4/3] overflow-hidden rounded-tight sm:aspect-[16/10]">
+                <Photo slot={group.photo} sizes="(min-width: 1024px) 55vw, 100vw" />
               </div>
 
-              <motion.div
-                className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3"
-                variants={staggerContainer(0.06)}
-              >
-                {group.items.map(({ icon: Icon, name, spec, benefit }) => (
-                  <motion.div
-                    key={name}
-                    className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] p-6 transition-colors hover:border-purple-500/40 hover:bg-white/[0.05]"
-                    variants={fadeInUp}
-                  >
-                    <div className="absolute -right-10 -top-10 h-28 w-28 rounded-full bg-purple-600/10 blur-2xl transition-opacity group-hover:opacity-100 opacity-0" />
-                    <div className="mb-5 flex items-center justify-between">
-                      <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-purple-500/20 bg-purple-600/10 transition-colors group-hover:bg-purple-600/20">
-                        <Icon className="h-6 w-6 text-purple-300" />
-                      </div>
-                      <span className="text-xs font-medium uppercase tracking-wide text-white/30">
-                        {spec}
-                      </span>
-                    </div>
-                    <h4 className="mb-2 text-lg font-semibold text-white">
-                      {name}
-                    </h4>
-                    <p className="text-sm leading-relaxed text-white/55">
-                      {benefit}
+              <ul className="mt-8 grid gap-x-8 gap-y-7 sm:grid-cols-2">
+                {group.items.map((item) => (
+                  <li key={item.name}>
+                    <p className="font-medium text-paper">{item.name}</p>
+                    <p className="mt-0.5 font-mono text-xs text-tally">{item.role}</p>
+                    <p className="mt-2 text-sm leading-relaxed text-muted-ink">
+                      {item.benefit}
                     </p>
-                  </motion.div>
+                  </li>
                 ))}
-              </motion.div>
+              </ul>
             </motion.div>
-          ))}
-        </motion.div>
+          </AnimatePresence>
+        </div>
       </div>
     </section>
   );

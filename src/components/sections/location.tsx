@@ -1,131 +1,69 @@
-"use client";
-
-import { motion } from "framer-motion";
-import { MapPin, Car, Clock, Phone, Mail, MessageCircle } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { ArrowUpRight } from "lucide-react";
+import { ButtonLink } from "@/components/site/button-link";
 import { site, waLink } from "@/lib/site";
 
 const details = [
-  {
-    icon: MapPin,
-    title: "Location",
-    lines: ["Gulshan Avenue", "Dhaka, Bangladesh"],
-  },
-  {
-    icon: Car,
-    title: "Parking",
-    lines: ["Free on-site visitor parking", "Valet available on request"],
-  },
-  {
-    icon: Clock,
-    title: "Studio Hours",
-    lines: ["Daily, 9:00 AM – 10:00 PM", "Flexible slots by appointment"],
-  },
+  { term: "Address", lines: ["Salam Tower, Vatara", "Near Evercare Hospital, Dhaka"] },
+  { term: "Hours", lines: ["Daily, 9 AM to 10 PM", "Other times by appointment"] },
+  { term: "Parking", lines: ["Free visitor parking on site", "Valet on request"] },
 ];
 
 export function LocationSection() {
   return (
-    <section className="bg-zinc-950 py-24 [content-visibility:auto] [contain-intrinsic-size:auto_700px]">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <motion.div
-          className="mb-16 text-center"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-        >
-          <p className="mb-3 text-sm font-semibold uppercase tracking-wider text-purple-400">
-            Visit Us
-          </p>
-          <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl lg:text-5xl">
-            Find the Studio in Dhaka
-          </h2>
-          <p className="mx-auto mt-4 max-w-xl text-white/50">
-            Centrally located in Gulshan — easy to reach from anywhere in the
-            city.
-          </p>
-        </motion.div>
+    <section id="contact" className="relative scroll-mt-16 border-t border-paper/10 lg:min-h-[640px]">
+      <iframe
+        src={site.mapEmbedSrc}
+        title={`${site.name} location in Dhaka`}
+        className="h-[360px] w-full lg:absolute lg:inset-0 lg:h-full"
+        style={{ border: 0, filter: "grayscale(1) invert(0.92) contrast(0.9) brightness(0.85)" }}
+        loading="lazy"
+        referrerPolicy="no-referrer-when-downgrade"
+        allowFullScreen
+      />
 
-        <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr]">
-          {/* Map */}
-          <motion.div
-            className="overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03]"
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-          >
-            <iframe
-              src={site.mapEmbedSrc}
-              title={`${site.name} location in Dhaka`}
-              className="h-full min-h-[360px] w-full"
-              style={{ border: 0, filter: "grayscale(0.3) invert(0.9) hue-rotate(180deg)" }}
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-              allowFullScreen
-            />
-          </motion.div>
+      <div className="pointer-events-none relative mx-auto max-w-[1400px] px-4 py-12 sm:px-6 lg:flex lg:min-h-[640px] lg:items-center lg:justify-end lg:px-10 lg:py-16">
+        <div className="pointer-events-auto w-full rounded-tight bg-ink/95 lg:max-w-md lg:border lg:border-paper/10 lg:p-10 lg:shadow-[0_30px_80px_-30px_rgb(0_0_0/0.8)] lg:backdrop-blur">
+          <h2 className="font-display-wide text-4xl leading-[1.02]">Find us in Vatara.</h2>
 
-          {/* Details */}
-          <motion.div
-            className="flex flex-col gap-4"
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
-          >
-            {details.map(({ icon: Icon, title, lines }) => (
-              <div
-                key={title}
-                className="flex items-start gap-4 rounded-2xl border border-white/10 bg-white/[0.03] p-5"
-              >
-                <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl border border-purple-500/20 bg-purple-600/10">
-                  <Icon className="h-5 w-5 text-purple-300" />
-                </div>
-                <div>
-                  <h3 className="font-semibold text-white">{title}</h3>
-                  {lines.map((line) => (
-                    <p key={line} className="text-sm text-white/55">
-                      {line}
-                    </p>
-                  ))}
-                </div>
+          <dl className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-1">
+            {details.map(({ term, lines }) => (
+              <div key={term}>
+                <dt className="text-sm text-dim">{term}</dt>
+                {lines.map((line) => (
+                  <dd key={line} className="text-paper">
+                    {line}
+                  </dd>
+                ))}
               </div>
             ))}
-
-            <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-5">
-              <h3 className="mb-3 font-semibold text-white">Get in touch</h3>
-              <div className="flex flex-col gap-2.5 text-sm">
-                <a
-                  href={`tel:${site.phone.replace(/\s/g, "")}`}
-                  className="flex items-center gap-3 text-white/60 transition-colors hover:text-white"
-                >
-                  <Phone className="h-4 w-4 text-purple-400" />
+            <div>
+              <dt className="text-sm text-dim">Contact</dt>
+              <dd>
+                <a href={`tel:${site.phone.replace(/\s/g, "")}`} className="text-paper hover:text-tally">
                   {site.phone}
                 </a>
-                <a
-                  href={`mailto:${site.email}`}
-                  className="flex items-center gap-3 text-white/60 transition-colors hover:text-white"
-                >
-                  <Mail className="h-4 w-4 text-purple-400" />
+              </dd>
+              <dd>
+                <a href={`mailto:${site.email}`} className="text-paper hover:text-tally">
                   {site.email}
                 </a>
-              </div>
-              <Button
-                asChild
-                className="mt-4 w-full border-0 bg-purple-600 text-white hover:bg-purple-700"
-              >
-                <a
-                  href={waLink(
-                    "Hi! I'd like to visit the EasyPod studio in Dhaka."
-                  )}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <MessageCircle className="mr-2 h-4 w-4" />
-                  Chat on WhatsApp
-                </a>
-              </Button>
+              </dd>
             </div>
-          </motion.div>
+          </dl>
+
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+            <ButtonLink
+              href={waLink("Hi! I'd like to visit the EasyPod studio in Dhaka.")}
+              variant="line"
+              className="flex-1"
+            >
+              Chat on WhatsApp
+            </ButtonLink>
+            <ButtonLink href={site.mapsLink} variant="line" className="flex-1">
+              Directions
+              <ArrowUpRight />
+            </ButtonLink>
+          </div>
         </div>
       </div>
     </section>

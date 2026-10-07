@@ -13,18 +13,21 @@ export const site = {
   whatsapp: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "8801700000000",
   url: process.env.NEXT_PUBLIC_SITE_URL || "https://easypod.studio",
   address: {
-    street: "Gulshan Avenue",
+    street: "Salam Tower, Vatara",
     locality: "Dhaka",
     region: "Dhaka",
     country: "BD",
   },
-  // Google Maps embed centred on Gulshan, Dhaka (placeholder — replace with the
-  // studio's exact "Embed a map" share URL from Google Maps).
+  // Google Maps has no listing for Salam Tower yet, so the map and directions
+  // anchor on nearby Evercare Hospital. Once the studio has its own Google
+  // Business listing, swap in its "Embed a map" and share URLs.
   mapEmbedSrc:
-    "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3650.0!2d90.4125!3d23.7925!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2sGulshan%2C%20Dhaka!5e0!3m2!1sen!2sbd!4v1700000000000",
-  mapsLink: "https://maps.google.com/?q=EasyPod+Studio+Gulshan+Dhaka",
-  // Replace with the real YouTube video IDs.
-  studioTourVideoId: "aqz-KE-bpKQ",
+    "https://maps.google.com/maps?q=Evercare%20Hospital%20Dhaka&z=16&output=embed",
+  mapsLink:
+    "https://www.google.com/maps/search/?api=1&query=Evercare+Hospital+Dhaka",
+  // YouTube ID of the studio tour. While null, the tour section is hidden and
+  // the hero links to the gear section instead.
+  studioTourVideoId: null as string | null,
   social: {
     instagram: "https://instagram.com/easypodstudio",
     youtube: "https://youtube.com/@easypodstudio",

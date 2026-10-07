@@ -108,10 +108,10 @@ async function main() {
       title: "Video Podcast Production",
       slug: "video-podcast-production",
       description:
-        "Look as professional as you sound. A multi-camera Sony & DJI setup with Godox cinematic lighting creates compelling visual content that keeps viewers watching.",
+        "Look as professional as you sound. A multi-camera Sony setup with Godox cinematic lighting creates compelling visual content that keeps viewers watching.",
       icon: "Video",
       features: [
-        "Sony Alpha 7 IV, ZV-1 & DJI Osmo Pocket 3 cameras",
+        "Sony Alpha 7 IV, ZV-1 & ZV-E10 cameras",
         "4K multi-camera recording",
         "Godox cinematic lighting",
         "Desview T12S teleprompter",
@@ -244,7 +244,7 @@ async function main() {
     {
       question: "What equipment do you have available?",
       answer:
-        "We have Sony Alpha 7 IV, Sony ZV-1 and DJI Osmo Pocket 3 cameras with premium Sony & Tamron lenses, DJI Mic 2 and Rode PodMic microphones through a RodeCaster Duo, Godox cinematic lighting, a Desview T12S teleprompter, acoustic treatment panels, and a high-speed fiber internet connection for live streaming.",
+        "We have Sony Alpha 7 IV, Sony ZV-1 and Sony ZV-E10 cameras with premium Sony & Tamron lenses, DJI Mic 2 and Rode PodMic microphones through a RodeCaster Duo, Godox cinematic lighting, a Desview T12S teleprompter, acoustic treatment panels, and a high-speed fiber internet connection for live streaming.",
       sortOrder: 2,
     },
     {

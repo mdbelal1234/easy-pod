@@ -8,11 +8,11 @@ export default function PublicLayout({
   children: React.ReactNode;
 }) {
   return (
-    <>
+    <div className="site relative flex min-h-full flex-1 flex-col">
       <Navbar />
       <main className="flex-1">{children}</main>
       <Footer />
       <WhatsAppButton />
-    </>
+    </div>
   );
 }

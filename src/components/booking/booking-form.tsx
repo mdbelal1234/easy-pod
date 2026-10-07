@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useCallback, useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { motion } from "framer-motion";
@@ -12,6 +13,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { bookingSchema, type BookingFormData } from "@/lib/validations";
 import { createBooking } from "@/lib/actions/booking";
+import { formatTaka, packages, type PackageSlug } from "@/lib/packages";
 
 const recordingTypes = [
   { value: "PODCAST", label: "Podcast Recording" },
@@ -30,20 +32,32 @@ const timeSlots = [
   "6:00 PM",
 ];
 
-interface BookingFormProps {
-  packages?: { id: string; name: string; price: number }[];
+/** Pre-selects the package passed as `?package=<slug>` (from the pricing buttons). */
+function PackageFromUrl({ onPackage }: { onPackage: (slug: PackageSlug) => void }) {
+  const slug = useSearchParams().get("package");
+  useEffect(() => {
+    const match = packages.find((p) => p.slug === slug);
+    if (match) onPackage(match.slug);
+  }, [slug, onPackage]);
+  return null;
 }
 
-export function BookingForm({ packages = [] }: BookingFormProps) {
+export function BookingForm() {
   const [submitted, setSubmitted] = useState(false);
 
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors, isSubmitting },
   } = useForm<BookingFormData>({
     resolver: zodResolver(bookingSchema),
   });
+
+  const selectPackage = useCallback(
+    (slug: PackageSlug) => setValue("package", slug),
+    [setValue]
+  );
 
   const onSubmit = async (data: BookingFormData) => {
     const result = await createBooking(data);
@@ -61,11 +75,11 @@ export function BookingForm({ packages = [] }: BookingFormProps) {
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
       >
-        <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-          <CheckCircle className="w-8 h-8 text-green-600" />
+        <div className="w-14 h-14 bg-tally/15 rounded-tight flex items-center justify-center mx-auto mb-4">
+          <CheckCircle className="w-8 h-8 text-tally" />
         </div>
-        <h3 className="text-xl font-bold text-gray-900 mb-2">Booking Received!</h3>
-        <p className="text-gray-500">
+        <h3 className="font-display-wide text-2xl mb-2">Booking received</h3>
+        <p className="text-muted-ink">
           We&apos;ll confirm your session within 24 hours via email and WhatsApp.
         </p>
       </motion.div>
@@ -74,6 +88,9 @@ export function BookingForm({ packages = [] }: BookingFormProps) {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+      <Suspense fallback={null}>
+        <PackageFromUrl onPackage={selectPackage} />
+      </Suspense>
       <div className="grid sm:grid-cols-2 gap-4">
         <div>
           <Label htmlFor="name">Full Name *</Label>
@@ -84,7 +101,7 @@ export function BookingForm({ packages = [] }: BookingFormProps) {
             className="mt-1"
           />
           {errors.name && (
-            <p className="text-red-500 text-xs mt-1">{errors.name.message}</p>
+            <p className="text-tally text-xs mt-1">{errors.name.message}</p>
           )}
         </div>
         <div>
@@ -97,7 +114,7 @@ export function BookingForm({ packages = [] }: BookingFormProps) {
             className="mt-1"
           />
           {errors.email && (
-            <p className="text-red-500 text-xs mt-1">{errors.email.message}</p>
+            <p className="text-tally text-xs mt-1">{errors.email.message}</p>
           )}
         </div>
       </div>
@@ -112,7 +129,7 @@ export function BookingForm({ packages = [] }: BookingFormProps) {
             className="mt-1"
           />
           {errors.phone && (
-            <p className="text-red-500 text-xs mt-1">{errors.phone.message}</p>
+            <p className="text-tally text-xs mt-1">{errors.phone.message}</p>
           )}
         </div>
         <div>
@@ -126,30 +143,28 @@ export function BookingForm({ packages = [] }: BookingFormProps) {
         </div>
       </div>
 
-      {packages.length > 0 && (
-        <div>
-          <Label htmlFor="packageId">Package</Label>
-          <select
-            id="packageId"
-            {...register("packageId")}
-            className="mt-1 w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-          >
-            <option value="">Select a package (optional)</option>
-            {packages.map((pkg) => (
-              <option key={pkg.id} value={pkg.id}>
-                {pkg.name} — ৳{pkg.price.toLocaleString()}
-              </option>
-            ))}
-          </select>
-        </div>
-      )}
+      <div>
+        <Label htmlFor="package">Package</Label>
+        <select
+          id="package"
+          {...register("package")}
+          className="mt-1 w-full rounded-tight border border-input bg-background px-3 py-2.5 text-sm shadow-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+        >
+          <option value="">Not sure yet</option>
+          {packages.map((pkg) => (
+            <option key={pkg.slug} value={pkg.slug}>
+              {pkg.name}, {formatTaka(pkg.price)} per hour
+            </option>
+          ))}
+        </select>
+      </div>
 
       <div>
         <Label htmlFor="recordingType">Recording Type *</Label>
         <select
           id="recordingType"
           {...register("recordingType")}
-          className="mt-1 w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          className="mt-1 w-full rounded-tight border border-input bg-background px-3 py-2.5 text-sm shadow-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
         >
           <option value="">Select type</option>
           {recordingTypes.map((type) => (
@@ -159,7 +174,7 @@ export function BookingForm({ packages = [] }: BookingFormProps) {
           ))}
         </select>
         {errors.recordingType && (
-          <p className="text-red-500 text-xs mt-1">
+          <p className="text-tally text-xs mt-1">
             {errors.recordingType.message}
           </p>
         )}
@@ -176,7 +191,7 @@ export function BookingForm({ packages = [] }: BookingFormProps) {
             className="mt-1"
           />
           {errors.preferredDate && (
-            <p className="text-red-500 text-xs mt-1">
+            <p className="text-tally text-xs mt-1">
               {errors.preferredDate.message}
             </p>
           )}
@@ -186,7 +201,7 @@ export function BookingForm({ packages = [] }: BookingFormProps) {
           <select
             id="preferredTime"
             {...register("preferredTime")}
-            className="mt-1 w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            className="mt-1 w-full rounded-tight border border-input bg-background px-3 py-2.5 text-sm shadow-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           >
             <option value="">Select time</option>
             {timeSlots.map((slot) => (
@@ -196,7 +211,7 @@ export function BookingForm({ packages = [] }: BookingFormProps) {
             ))}
           </select>
           {errors.preferredTime && (
-            <p className="text-red-500 text-xs mt-1">
+            <p className="text-tally text-xs mt-1">
               {errors.preferredTime.message}
             </p>
           )}
@@ -217,7 +232,7 @@ export function BookingForm({ packages = [] }: BookingFormProps) {
       <Button
         type="submit"
         disabled={isSubmitting}
-        className="w-full h-12 bg-purple-600 hover:bg-purple-700 text-white border-0 text-base font-semibold"
+        className="w-full h-12 rounded-tight bg-tally text-ink hover:bg-tally-hover border-0 text-[15px] font-medium active:translate-y-px"
       >
         {isSubmitting ? (
           <>
@@ -225,11 +240,11 @@ export function BookingForm({ packages = [] }: BookingFormProps) {
             Submitting...
           </>
         ) : (
-          "Confirm Booking"
+          "Request booking"
         )}
       </Button>
 
-      <p className="text-center text-gray-400 text-xs">
+      <p className="text-center text-dim text-xs">
         We&apos;ll confirm within 24 hours via email & WhatsApp
       </p>
     </form>

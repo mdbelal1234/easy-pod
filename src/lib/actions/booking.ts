@@ -2,6 +2,7 @@
 
 import { prisma } from "@/lib/prisma";
 import { bookingSchema } from "@/lib/validations";
+import { packages } from "@/lib/packages";
 import { resend, FROM_EMAIL, ADMIN_EMAIL } from "@/lib/resend";
 import { revalidatePath } from "next/cache";
 
@@ -14,17 +15,27 @@ export async function createBooking(formData: unknown) {
   const data = parsed.data;
 
   try {
+    // Packages are defined in code; link to the matching DB row when it exists.
+    const pkg = data.package
+      ? await prisma.package.findUnique({ where: { slug: data.package }, select: { id: true } })
+      : null;
+    const chosen = packages.find((p) => p.slug === data.package);
+    const notes =
+      chosen && !pkg
+        ? [`Package: ${chosen.name}`, data.notes].filter(Boolean).join("\n\n")
+        : data.notes;
+
     const booking = await prisma.booking.create({
       data: {
         name: data.name,
         email: data.email,
         phone: data.phone,
         company: data.company,
-        packageId: data.packageId || null,
+        packageId: pkg?.id ?? null,
         recordingType: data.recordingType as never,
         preferredDate: new Date(data.preferredDate),
         preferredTime: data.preferredTime,
-        notes: data.notes,
+        notes,
       },
       include: { package: true },
     });

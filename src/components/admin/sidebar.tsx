@@ -9,11 +9,6 @@ import {
   LayoutDashboard,
   CalendarCheck,
   Users,
-  Briefcase,
-  Package,
-  MessageSquare,
-  HelpCircle,
-  GalleryHorizontal,
   Settings,
   LogOut,
   Mic,
@@ -26,11 +21,6 @@ const navItems = [
   { href: "/admin", label: "Dashboard", icon: LayoutDashboard, exact: true },
   { href: "/admin/bookings", label: "Bookings", icon: CalendarCheck },
   { href: "/admin/leads", label: "Leads", icon: Users },
-  { href: "/admin/services", label: "Services", icon: Briefcase },
-  { href: "/admin/packages", label: "Packages", icon: Package },
-  { href: "/admin/testimonials", label: "Testimonials", icon: MessageSquare },
-  { href: "/admin/faqs", label: "FAQs", icon: HelpCircle },
-  { href: "/admin/gallery", label: "Gallery", icon: GalleryHorizontal },
   { href: "/admin/settings", label: "Settings", icon: Settings },
 ];
 

@@ -1,10 +1,30 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Archivo, Geist, Geist_Mono, Inter } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
 
 const inter = Inter({
   variable: "--font-inter",
+  subsets: ["latin"],
+  display: "swap",
+});
+
+// Public site type: Archivo (with its width axis) for display, Geist for text.
+const archivo = Archivo({
+  variable: "--font-archivo",
+  subsets: ["latin"],
+  axes: ["wdth"],
+  display: "swap",
+});
+
+const geist = Geist({
+  variable: "--font-geist",
+  subsets: ["latin"],
+  display: "swap",
+});
+
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
   subsets: ["latin"],
   display: "swap",
 });
@@ -18,7 +38,7 @@ export const metadata: Metadata = {
     template: "%s | EasyPod Studio",
   },
   description:
-    "Record, produce, and grow your podcast at EasyPod Studio Dhaka. Multi-camera video, studio-grade audio, expert lighting, and full editing support in Gulshan, Dhaka, Bangladesh.",
+    "Record, produce, and grow your podcast at EasyPod Studio Dhaka. Multi-camera video, studio-grade audio, expert lighting, and full editing support in Vatara, Dhaka, Bangladesh.",
   keywords: [
     "podcast studio bangladesh",
     "video podcast studio dhaka",
@@ -82,7 +102,7 @@ export default function RootLayout({
     <html
       lang="en"
       data-scroll-behavior="smooth"
-      className={`${inter.variable} h-full bg-black`}
+      className={`${inter.variable} ${archivo.variable} ${geist.variable} ${geistMono.variable} h-full bg-black`}
     >
       <body className="min-h-full flex flex-col bg-black text-foreground antialiased">
         {children}
