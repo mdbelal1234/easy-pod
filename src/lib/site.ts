@@ -9,8 +9,8 @@ export const site = {
   country: "Bangladesh",
   email: "hello@easypod.studio",
   phone: "+880 1620 309061",
-  // Digits only, for wa.me links.
-  whatsapp: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "8801620309061",
+  // Digits with country code, for wa.me links.
+  whatsapp: toWhatsAppNumber(process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "8801620309061"),
   url: process.env.NEXT_PUBLIC_SITE_URL || "https://easypod.studio",
   address: {
     street: "Salam Tower, Vatara",
@@ -38,3 +38,14 @@ export const site = {
 
 export const waLink = (message: string) =>
   `https://wa.me/${site.whatsapp}?text=${encodeURIComponent(message)}`;
+
+/**
+ * wa.me needs the full international number as digits only. Accepts
+ * "+880 1620-309061", "008801620309061", or a Bangladeshi local number
+ * ("01620309061", "1620309061") and returns "8801620309061".
+ */
+function toWhatsAppNumber(raw: string) {
+  const digits = raw.replace(/\D/g, "").replace(/^00/, "");
+  if (digits.startsWith("880")) return digits;
+  return `880${digits.replace(/^0/, "")}`;
+}

@@ -67,7 +67,9 @@ export function Navbar() {
       <header
         className={cn(
           "fixed inset-x-0 top-0 z-50 border-b transition-[background-color,border-color] duration-300",
-          scrolled || open
+          open
+            ? "border-paper/10 bg-ink"
+            : scrolled
             ? "border-paper/10 bg-ink/90 backdrop-blur-md"
             : "border-transparent bg-transparent"
         )}
@@ -119,35 +121,38 @@ export function Navbar() {
           </div>
         </nav>
 
-        <AnimatePresence>
-          {open && (
-            <motion.div
-              initial={{ opacity: 0, y: -8 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -8 }}
-              transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-              className="fixed inset-x-0 bottom-0 top-16 flex flex-col justify-between bg-ink px-4 pb-8 pt-6 md:hidden"
-            >
-              <ul className="flex flex-col">
-                {navLinks.map((link) => (
-                  <li key={link.href}>
-                    <Link
-                      href={link.href}
-                      onClick={close}
-                      className="block py-3 font-display-wide text-3xl text-paper"
-                    >
-                      {link.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-              <ButtonLink href="/#book" className="w-full" onClick={close}>
-                Book a session
-              </ButtonLink>
-            </motion.div>
-          )}
-        </AnimatePresence>
       </header>
+
+      {/* Outside the header: its backdrop-filter would make it the containing
+          block for this fixed panel, collapsing it to the header's height. */}
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+            className="fixed inset-x-0 bottom-0 top-16 z-[60] flex flex-col justify-between bg-ink px-4 pb-8 pt-6 md:hidden"
+          >
+            <ul className="flex flex-col">
+              {navLinks.map((link) => (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    onClick={close}
+                    className="block py-3 font-display-wide text-3xl text-paper"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+            <ButtonLink href="/#book" className="w-full" onClick={close}>
+              Book a session
+            </ButtonLink>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 }
