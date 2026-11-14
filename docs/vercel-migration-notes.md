@@ -66,16 +66,25 @@ Right now emails are skipped: bookings still save, and the logs show
 
 ### 4. Bring over old data from Hostinger (only if there was real data)
 
-The Neon database started fresh, with only the admin user and the 3 packages from the seed.
+The Neon database started fresh from the seed: admin user, packages, services,
+FAQs, testimonials and site settings with their **default** content. Bookings,
+leads and gallery items are empty.
 
-- [ ] Check whether the old Hostinger site had real bookings or leads you still need.
-- [ ] If yes, dump only the data from the old database:
+- [ ] Check what the old Hostinger site has that the seed doesn't: real bookings
+      and leads, plus anything edited in the old admin panel (prices, FAQs,
+      testimonials, gallery, site settings).
+- [ ] Simplest route for a small amount: re-enter the edited content by hand in the
+      new admin panel, and only migrate bookings and leads.
+- [ ] To migrate rows, dump only the data from the old database:
       ```bash
       pg_dump "<old DATABASE_URL>" --data-only --no-owner \
-        -t '"Booking"' -t '"Lead"' > old-data.sql
+        -t '"Booking"' -t '"Lead"' -t '"Gallery"' > old-data.sql
       ```
-      (Leave out `"User"` and `"Package"`, which already exist in Neon, unless you
-      want the old rows to replace them.)
+      Add `-t '"Package"' -t '"Service"' -t '"FAQ"' -t '"Testimonial"' -t '"SiteSetting"'`
+      to bring old content over too. First empty those tables in Neon
+      (`TRUNCATE "FAQ", ... CASCADE;`), or the import fails on duplicate keys.
+      Bookings point at packages, so if you import bookings, import the old
+      `"Package"` rows too, or the package IDs won't match.
 - [ ] Get the Neon direct URL **without** overwriting your local `.env.local`:
       ```bash
       vercel env pull /tmp/prod.env --environment=production
