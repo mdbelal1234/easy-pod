@@ -1,5 +1,10 @@
 # Easy Pod — Deployment Guide (Hostinger VPS)
 
+> **The site now runs on Vercel** (since 2026-11-14). See
+> [`docs/vercel-migration-notes.md`](docs/vercel-migration-notes.md) for the current
+> setup and open to-dos. Deploy with `vercel deploy --prod`. The Hostinger steps
+> below are kept for reference only; the WhatsApp section still applies.
+
 ## Prerequisites
 
 - Ubuntu 22.04+ VPS
