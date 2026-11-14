@@ -14,38 +14,119 @@ Moved from Hostinger to Vercel on 2026-11-14.
 The build (`npm run build`) runs `prisma migrate deploy` against Neon first, so new
 migrations are applied automatically on every deploy.
 
-## Still to change (in order of importance)
+## To do later — checklist
 
-1. **Change the admin password.** The production admin (`admin@easypod.studio`) was
-   given a random password during setup (handed over in the setup chat, not stored
-   here). Sign in at https://easypod.studio/admin/login and change it.
-2. **Add `RESEND_API_KEY` on Vercel.** It is not set, so booking confirmation and
-   admin emails are skipped (logged as a warning; bookings still save).
-   `vercel env add RESEND_API_KEY production` (and `preview`), then redeploy.
-   Also verify `easypod.studio` in the Resend dashboard: it will ask for DKIM/SPF
-   records — add them at Hostinger (DNS records page). No Resend records exist
-   in DNS today, so sending from `noreply@easypod.studio` will fail until that's done.
-3. **WhatsApp booking alerts.** Add `WHATSAPP_ACCESS_TOKEN` and
-   `WHATSAPP_PHONE_NUMBER_ID` on Vercel (see `DEPLOYMENT.md` → "WhatsApp booking
-   alerts"). Until then alerts are skipped.
-4. **Old bookings/data.** The Neon database started fresh (migrations + seed:
-   admin user and the packages). If the Hostinger site's database had real
-   bookings or leads, export them (`pg_dump --data-only`) and import into Neon
-   with `DATABASE_URL_UNPOOLED` (get it with `vercel env pull`).
-5. **Auto-deploy from GitHub.** The project deploys from the CLI right now; linking
-   the repo failed because the Vercel GitHub app has no access to
-   `mdbelal1234/easy-pod`. Install it (Vercel dashboard → project → Settings → Git →
-   Connect, grant the repo), or run `vercel git connect` after granting access.
-   Then every push to `main` deploys to production.
-6. **Retire the Hostinger website.** The old app still runs on the Hostinger plan
-   but no longer receives traffic. When you're happy, cancel/stop it. Don't use
-   Hostinger's "connect domain to website" button — it would put back the ALIAS
-   record and send traffic to Hostinger again. The `ftp` A record (`82.29.157.124`)
-   points at that hosting and can be deleted once it's gone.
-7. **Optional:** `NEXT_PUBLIC_GOOGLE_MAPS_EMBED_URL` is empty; set it if the map
-   embed should show. Neon's free plan sleeps the database after inactivity (first
-   request after idle is slower) and caps storage at 0.5 GB — upgrade to Launch if
-   that becomes a problem. Update the Vercel CLI (`npm i -g vercel@latest`).
+Tick these off as you go (`- [x]`). Items are in order of importance.
+
+### 1. Change the admin password — do this first
+
+- [ ] Open https://easypod.studio/admin/login and sign in as `admin@easypod.studio`
+      with the random password from setup. It was saved on the setup machine in the
+      Claude scratchpad as `admin-password.txt`, not in this repo.
+- [ ] Change the password in the admin panel and store the new one in a password manager.
+- [ ] If you lose it: reset it with a one-off script against `DATABASE_URL_UNPOOLED`
+      (bcrypt hash, cost 12, on the `User` row with that email).
+
+### 2. Turn on booking emails (Resend)
+
+Right now emails are skipped: bookings still save, and the logs show
+`RESEND_API_KEY is not set; skipped email ...`.
+
+- [ ] Sign in at https://resend.com → **Domains → Add domain** → `easypod.studio`.
+- [ ] Resend lists some DNS records (usually a DKIM TXT `resend._domainkey`, plus an
+      MX and an SPF TXT on the `send` subdomain). Add each one at **Hostinger → Domains
+      → easypod.studio → DNS / Nameservers**.
+      Don't touch the existing `@` MX records (`mx1/mx2.hostinger.com`): they run your inbox.
+- [ ] Wait until Resend shows the domain as **Verified**.
+- [ ] Resend → **API Keys → Create** (permission: *Sending access*, domain: easypod.studio).
+- [ ] Add it to Vercel, then redeploy:
+      ```bash
+      vercel env add RESEND_API_KEY production --sensitive
+      vercel env add RESEND_API_KEY preview --sensitive
+      vercel deploy --prod
+      ```
+- [ ] Test: make a booking on the site with your own email → you get the confirmation,
+      and `admin@easypod.studio` gets the alert.
+- [ ] Optional: if the admin alert should go to another inbox, change `ADMIN_EMAIL`
+      on Vercel (`vercel env rm ADMIN_EMAIL production` then `vercel env add ...`).
+
+### 3. Turn on WhatsApp booking alerts
+
+- [ ] Follow `DEPLOYMENT.md` → **WhatsApp booking alerts** (Meta app, sending number,
+      permanent System User token, `new_booking` template, which needs approval).
+- [ ] Add the values to Vercel and redeploy:
+      ```bash
+      vercel env add WHATSAPP_ACCESS_TOKEN production --sensitive
+      vercel env add WHATSAPP_PHONE_NUMBER_ID production
+      # optional: send alerts to a different number than the public one
+      vercel env add WHATSAPP_NOTIFY_TO production
+      vercel deploy --prod
+      ```
+- [ ] Test with a booking; check `vercel logs --level error` if nothing arrives.
+
+### 4. Bring over old data from Hostinger (only if there was real data)
+
+The Neon database started fresh, with only the admin user and the 3 packages from the seed.
+
+- [ ] Check whether the old Hostinger site had real bookings or leads you still need.
+- [ ] If yes, dump only the data from the old database:
+      ```bash
+      pg_dump "<old DATABASE_URL>" --data-only --no-owner \
+        -t '"Booking"' -t '"Lead"' > old-data.sql
+      ```
+      (Leave out `"User"` and `"Package"`, which already exist in Neon, unless you
+      want the old rows to replace them.)
+- [ ] Get the Neon direct URL **without** overwriting your local `.env.local`:
+      ```bash
+      vercel env pull /tmp/prod.env --environment=production
+      grep DATABASE_URL_UNPOOLED /tmp/prod.env
+      ```
+- [ ] Import: `psql "<DATABASE_URL_UNPOOLED>" -f old-data.sql`, then delete
+      `/tmp/prod.env` and `old-data.sql`.
+- [ ] Open the admin bookings page and confirm the old bookings show up.
+
+### 5. Auto-deploy on every push to GitHub
+
+Deploys only happen from the CLI right now (`vercel deploy --prod`).
+
+- [ ] Vercel dashboard → project **easy-pod** → **Settings → Git → Connect Git
+      Repository** → GitHub → install or configure the Vercel app and give it
+      access to `mdbelal1234/easy-pod`.
+      (Or grant access at https://github.com/settings/installations, then run `vercel git connect`.)
+- [ ] Check: push a small commit to `main` → a new production deployment shows up in the dashboard.
+- [ ] Any other branch or PR then gets its own preview URL.
+
+### 6. Shut down the old Hostinger website
+
+- [ ] After a few days without problems on Vercel, stop or cancel the Hostinger
+      **website/hosting** plan.
+      **Keep** the **domain** registration and **Hostinger Mail**: both still live at Hostinger.
+- [ ] Then delete the `ftp` A record (`82.29.157.124`) in Hostinger DNS.
+- [ ] Never click Hostinger's "Connect domain to website" or "Point domain": that
+      puts back the `@` ALIAS and sends traffic to Hostinger again.
+- [ ] Make sure the domain's **auto-renew** is on at Hostinger, so the domain doesn't
+      expire and take the site down.
+
+### 7. Nice to have
+
+- [ ] **Google Maps embed:** set `NEXT_PUBLIC_GOOGLE_MAPS_EMBED_URL` (Google Maps →
+      Share → Embed a map → copy the `src` URL), then redeploy. `NEXT_PUBLIC_*`
+      values are baked in at build time.
+- [ ] **Search Console:** add `easypod.studio` at https://search.google.com/search-console
+      and submit `https://easypod.studio/sitemap.xml`, so Google picks up the new site quickly.
+- [ ] **Analytics:** enable Vercel Web Analytics / Speed Insights in the project dashboard if you want visitor stats.
+- [ ] **Neon free plan limits:** 0.5 GB storage, and the database sleeps when idle
+      (the first request after a quiet period is ~0.5–1 s slower). Upgrade to the
+      *Launch* plan if bookings grow or the cold start bothers you.
+- [ ] **Database backups:** check Neon's restore window (free plan keeps a short
+      history), or run a weekly `pg_dump` of `DATABASE_URL_UNPOOLED` and keep it safe.
+- [ ] **Vercel CLI:** update it (`npm i -g vercel@latest`); the installed 59.x is outdated.
+- [ ] **Cleanup:** remove the unused Neon Auth variables (`NEON_AUTH_BASE_URL`,
+      `VITE_NEON_AUTH_URL`) from the project if you don't plan to use Neon Auth.
+      They're harmless.
+- [ ] **pg SSL warning in the logs:** the logs show a harmless warning about
+      `sslmode`. To silence it, append `&sslmode=verify-full` (or replace
+      `sslmode=require`) in `DATABASE_URL` and `DATABASE_URL_UNPOOLED` on Vercel.
 
 ## Environment variables on Vercel (Production + Preview)
 
