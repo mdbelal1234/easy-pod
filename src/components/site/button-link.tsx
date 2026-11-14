@@ -1,11 +1,14 @@
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 
-type Variant = "tally" | "line";
+type Variant = "tally" | "line" | "ink" | "line-ink";
 
 const variants: Record<Variant, string> = {
   tally: "bg-tally text-ink hover:bg-tally-hover",
   line: "border border-paper/25 text-paper hover:border-paper/60 hover:bg-paper/5",
+  // For use on the tally-red field.
+  ink: "bg-ink text-paper hover:bg-ink-2",
+  "line-ink": "border border-ink/45 text-ink hover:border-ink hover:bg-ink/5",
 };
 
 /**

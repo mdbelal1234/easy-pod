@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { packageSlugs } from "@/lib/packages";
+import { sessionLengths } from "@/lib/schedule";
 
 export const bookingSchema = z.object({
   name: z.string().trim().min(2, "Enter your name"),
@@ -18,6 +19,7 @@ export const bookingSchema = z.object({
   ], { error: "Choose what you're recording" }),
   preferredDate: z.string().min(1, "Pick a date"),
   preferredTime: z.string({ error: "Pick a start time" }).min(1, "Pick a start time"),
+  hours: z.enum(sessionLengths, { error: "Choose how long you need the studio" }),
   notes: z.string().optional(),
 });
 

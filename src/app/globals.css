@@ -61,6 +61,8 @@
   --color-dim: #8c877f;
   --color-tally: #f0533a;
   --color-tally-hover: #ff6a4d;
+  /* Monitor glass: a shade below the desk, so screens read as screens. */
+  --color-glass: #0c0b0a;
   --radius-tight: 4px;
 }
 
@@ -219,6 +221,211 @@
   outline-offset: 3px;
 }
 
+.site {
+  caret-color: var(--color-tally);
+}
+
+html:has(.site) {
+  scrollbar-color: var(--color-ink-3) var(--color-ink);
+}
+
+/* Desk components sit in the components layer so utilities can still
+   override them per element. */
+@layer components {
+  /* ---------- Desk keys ----------
+     A label wrapping a hidden radio, or a button with aria-pressed. What you
+     are choosing lights paper-white; red stays for what is live. */
+  .site .key {
+    position: relative;
+    display: flex;
+    cursor: pointer;
+    user-select: none;
+    border-radius: var(--radius-tight);
+    border: 1px solid rgb(241 238 232 / 0.14);
+    background-color: var(--color-ink-2);
+    color: rgb(241 238 232 / 0.8);
+    box-shadow:
+      inset 0 1px 0 rgb(241 238 232 / 0.06),
+      0 1px 0 rgb(0 0 0 / 0.5),
+      0 8px 16px -12px rgb(0 0 0 / 0.9);
+    transition:
+      background-color 120ms ease-out,
+      border-color 120ms ease-out,
+      color 120ms ease-out,
+      box-shadow 120ms ease-out,
+      translate 120ms ease-out;
+  }
+
+  .site .key:hover {
+    border-color: rgb(241 238 232 / 0.42);
+    color: var(--color-paper);
+  }
+
+  .site .key:active {
+    translate: 0 1px;
+  }
+
+  .site .key:has(input:checked),
+  .site .key[aria-pressed="true"] {
+    background-color: var(--color-paper);
+    border-color: var(--color-paper);
+    color: var(--color-ink);
+    box-shadow:
+      inset 0 -2px 0 rgb(20 19 17 / 0.16),
+      0 10px 24px -14px rgb(241 238 232 / 0.45);
+  }
+
+  .site .key:has(input:focus-visible) {
+    outline: 2px solid var(--color-tally);
+    outline-offset: 2px;
+  }
+
+  .site .key-sub {
+    color: var(--color-muted-ink);
+    transition: color 120ms ease-out;
+  }
+
+  .site .key:has(input:checked) .key-sub,
+  .site .key[aria-pressed="true"] .key-sub {
+    color: rgb(20 19 17 / 0.62);
+  }
+
+  /* Unavailable: dark and unlit, still readable. */
+  .site .key:has(input:disabled),
+  .site .key[aria-disabled="true"] {
+    cursor: not-allowed;
+    background-color: transparent;
+    border-color: rgb(241 238 232 / 0.08);
+    color: var(--color-dim);
+    box-shadow: none;
+    translate: none;
+  }
+
+  /* ---------- The desk (homepage hero) ----------
+     Phones read headline, offer, monitor, angles, controls. From lg the
+     headline sits on the monitor as its lower third and the controls take
+     the right-hand column. */
+  .site .desk {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: "title" "intro" "monitor" "tiles" "panel";
+  }
+
+  @media (width >= 64rem) {
+    .site .desk {
+      grid-template-columns: minmax(0, 8fr) minmax(0, 4fr);
+      grid-template-rows: auto 1fr auto;
+      grid-template-areas:
+        "monitor intro"
+        "monitor panel"
+        "tiles panel";
+    }
+  }
+}
+
+/* Broadcast idents: monitor labels, track names, key captions. */
+@utility ident {
+  font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
+  font-stretch: 125%;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* ---------- Lights up ----------
+   Photos are lit, not faded: a black veil lifts as the frame comes into
+   view (.lit), or right away after a cut (.lit-now, replayed by re-keying). */
+.site .lit,
+.site .lit-now {
+  position: relative;
+  view-timeline: --shot block;
+}
+
+.site .lit::after,
+.site .lit-now::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: #070605;
+  opacity: 0;
+}
+
+@keyframes lights-up {
+  from {
+    opacity: 0.94;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+/* The angle on air drifts in slowly, like an operator holding a shot. */
+@keyframes push-in {
+  from {
+    scale: 1;
+  }
+  to {
+    scale: 1.035;
+  }
+}
+
+/* ---------- Session timeline ----------
+   --p (0..1) is the playhead, set by script; each clip spans --s..--e and
+   fills as the playhead passes. Without script, --p stays 1: all played. */
+.site .clip {
+  --fill: clamp(0, (var(--p, 1) - var(--s)) / (var(--e) - var(--s)), 1);
+}
+
+.site .clip-fill {
+  transform-origin: left;
+  transform: scaleX(var(--fill));
+}
+
+.site .clip-ink {
+  clip-path: inset(0 calc((1 - var(--fill)) * 100%) 0 0);
+}
+
+.site .playhead {
+  left: calc(var(--p, 1) * 100%);
+}
+
+/* ---------- Tally field ----------
+   The closing field is red by default; script arms it dark until it
+   scrolls into view, then it snaps on like a tally light. */
+.site .tally-field {
+  background-color: var(--color-tally);
+  transition: background-color 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.site .tally-field[data-armed="true"] {
+  background-color: #3a1a14;
+}
+
+/* Phones: while the desk's summary bar is docked at the bottom, the
+   WhatsApp button rises above the bar. */
+.site [data-fab] {
+  transition:
+    bottom 0.3s ease-out,
+    translate 0.2s ease-out,
+    border-color 0.2s ease-out;
+}
+
+html[data-dock] .site [data-fab] {
+  bottom: calc(5.5rem + env(safe-area-inset-bottom));
+}
+
+/* On red, the red focus ring and selection would vanish: switch them to ink. */
+.site .tally-field :focus-visible {
+  outline-color: var(--color-ink);
+}
+
+.site .tally-field ::selection {
+  background: var(--color-ink);
+  color: var(--color-tally);
+}
+
 /* Film grain: fixed, non-scrolling layer so it never repaints on scroll. */
 .site::after {
   content: "";
@@ -260,35 +467,94 @@
   }
 }
 
-@keyframes fill-x {
+/* Booking form: a tally cue on the package picked from the pricing table. */
+@keyframes cue {
   from {
-    transform: scaleX(0);
+    background-color: color-mix(in oklab, var(--color-tally) 32%, transparent);
+    box-shadow: 0 0 0 0 color-mix(in oklab, var(--color-tally) 55%, transparent);
   }
   to {
-    transform: scaleX(1);
+    box-shadow: 0 0 0 10px transparent;
   }
 }
 
+@keyframes cue-still {
+  from {
+    background-color: color-mix(in oklab, var(--color-tally) 32%, transparent);
+  }
+}
+
+/* Confirmation: the REC dot grows and squares off into the check badge. */
+@keyframes settle {
+  from {
+    transform: scale(0.17);
+    border-radius: 50%;
+  }
+  to {
+    transform: none;
+    border-radius: var(--radius-tight);
+  }
+}
+
+@keyframes draw {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    clip-path: inset(0);
+  }
+}
+
+@keyframes tick {
+  from {
+    opacity: 0.35;
+    transform: translateY(0.12em);
+  }
+}
+
+.cue {
+  animation: cue-still 0.9s ease-out;
+}
+
 @media (prefers-reduced-motion: no-preference) {
+  .cue {
+    animation: cue 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both;
+  }
+  .settle {
+    animation: settle 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  .settle-check {
+    animation: draw 0.3s cubic-bezier(0.16, 1, 0.3, 1) 0.32s both;
+  }
+  .tick {
+    animation: tick 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
   /* Load-in for above-the-fold copy. Stagger with --d on each element. */
   .rise {
     animation: rise 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
     animation-delay: var(--d, 0ms);
   }
 
+  .site .lit-now::after {
+    animation: lights-up 0.8s cubic-bezier(0.3, 0, 0.2, 1) both;
+  }
+  .site .shot-live {
+    animation: push-in 3.4s linear both;
+  }
+
   /* Scroll reveal via scroll-driven animations; browsers without support
      simply show the content. */
   @supports (animation-timeline: view()) {
+    .site .lit::after {
+      animation: lights-up linear both;
+      animation-timeline: --shot;
+      animation-range: entry 0% cover 40%;
+    }
     .reveal {
       animation: reveal linear both;
       animation-timeline: view();
       animation-range: entry 0% entry 40%;
-    }
-    .scroll-fill {
-      transform-origin: left;
-      animation: fill-x linear both;
-      animation-timeline: view();
-      animation-range: entry 60% cover 55%;
     }
   }
 }

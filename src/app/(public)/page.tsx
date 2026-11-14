@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import { HeroSection } from "@/components/sections/hero";
+import { ControlDesk } from "@/components/sections/control-desk";
 import { StudioTour } from "@/components/sections/studio-tour";
-import { EquipmentShowcase } from "@/components/sections/equipment-showcase";
+import { StudioSources } from "@/components/sections/studio-sources";
 import { PricingSection } from "@/components/sections/pricing-section";
-import { BookingProcess } from "@/components/sections/booking-process";
+import { CrewTracks } from "@/components/sections/crew-tracks";
 import { BookingSection } from "@/components/sections/booking-section";
 import { FAQSection } from "@/components/sections/faq-section";
 import { faqs } from "@/components/sections/faqs-data";
@@ -87,11 +87,11 @@ export default function HomePage() {
   return (
     <>
       <StructuredData />
-      <HeroSection />
+      <ControlDesk />
+      <CrewTracks />
       <StudioTour />
-      <EquipmentShowcase />
+      <StudioSources />
       <PricingSection />
-      <BookingProcess />
       <BookingSection />
       <FAQSection />
       <LocationSection />

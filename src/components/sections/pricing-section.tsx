@@ -1,5 +1,7 @@
 import { ArrowRight, Check } from "lucide-react";
+import { AngleShot } from "@/components/site/angle-shot";
 import { ButtonLink } from "@/components/site/button-link";
+import { angles } from "@/lib/media";
 import { cn } from "@/lib/utils";
 import { formatTaka, packages } from "@/lib/packages";
 import { waLink } from "@/lib/site";
@@ -23,7 +25,7 @@ function CellValue({ value }: { value: Cell }) {
   if (value === true)
     return (
       <>
-        <Check className="size-4 text-tally" strokeWidth={2.25} />
+        <Check className="size-4 text-paper" strokeWidth={2.25} />
         <span className="sr-only">Included</span>
       </>
     );
@@ -37,21 +39,47 @@ function CellValue({ value }: { value: Cell }) {
   return <>{value}</>;
 }
 
+/** The package's camera feeds: its angles on air, the rest as empty slots. */
+function Feeds({ cameras }: { cameras: number }) {
+  return (
+    <span aria-hidden className="grid grid-cols-3 gap-1.5">
+      {angles.map((angle, i) =>
+        i < cameras ? (
+          <span
+            key={angle.name}
+            className="relative block aspect-video overflow-hidden rounded-[3px] bg-glass ring-1 ring-paper/20"
+          >
+            <AngleShot angle={angle} sizes="(min-width: 1024px) 120px, 28vw" />
+            <span className="ident absolute left-1 top-1 rounded-[2px] bg-glass/85 px-1 py-px text-[9px] text-paper">
+              {i + 1}
+            </span>
+          </span>
+        ) : (
+          <span
+            key={angle.name}
+            className="block aspect-video rounded-[3px] border border-dashed border-paper/15"
+          />
+        )
+      )}
+    </span>
+  );
+}
+
 export function PricingSection() {
   return (
-    <section id="pricing" className="scroll-mt-16 border-t border-paper/10 py-24 lg:py-32">
+    <section id="pricing" className="scroll-mt-16 py-24 lg:py-36">
       <div className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-10">
-        <div className="reveal max-w-2xl">
-          <h2 className="font-display-wide text-4xl leading-[1.02] sm:text-5xl lg:text-6xl">
+        <div className="max-w-3xl">
+          <h2 className="font-display-wide text-[clamp(2.25rem,4.6vw,4.5rem)] leading-[1.02]">
             Pay for the cameras you need.
           </h2>
-          <p className="mt-5 max-w-[56ch] text-pretty text-lg leading-relaxed text-muted-ink">
+          <p className="mt-6 max-w-[56ch] text-pretty text-lg leading-relaxed text-muted-ink">
             Every session includes {included}
           </p>
         </div>
 
         {/* Desktop: one comparison table */}
-        <table className="reveal mt-16 hidden w-full table-fixed border-collapse text-left lg:table">
+        <table className="mt-16 hidden w-full table-fixed border-collapse text-left lg:table">
           <caption className="sr-only">Studio packages compared</caption>
           <colgroup>
             <col className="w-[22%]" />
@@ -67,14 +95,15 @@ export function PricingSection() {
                   key={plan.name}
                   scope="col"
                   className={cn(
-                    "border-t-2 border-transparent px-6 pb-8 pt-7 font-normal",
-                    plan.featured && "border-tally bg-ink-2"
+                    "border-t-2 px-6 pb-8 pt-7 font-normal",
+                    plan.featured ? "border-paper/60 bg-ink-2" : "border-transparent"
                   )}
                 >
-                  <span className="flex items-center justify-between">
+                  <Feeds cameras={plan.cameras} />
+                  <span className="mt-7 flex items-center justify-between gap-4">
                     <span className="text-lg font-medium text-paper">{plan.name}</span>
                     {plan.featured && (
-                      <span className="font-mono text-xs text-tally">Recommended</span>
+                      <span className="ident rounded-[2px] bg-paper/10 px-1.5 py-0.5 text-[10px] text-paper">Recommended</span>
                     )}
                   </span>
                   <span className="mt-2 block min-h-[2.75rem] text-sm text-muted-ink">
@@ -82,7 +111,7 @@ export function PricingSection() {
                   </span>
                   <span className="mt-6 flex items-baseline gap-2">
                     <span className="font-display-wide text-5xl">{formatTaka(plan.price)}</span>
-                    <span className="text-sm text-dim">per hour</span>
+                    <span className="text-sm text-dim">an hour</span>
                   </span>
                 </th>
               ))}
@@ -97,24 +126,11 @@ export function PricingSection() {
                 <td
                   key={plan.name}
                   className={cn(
-                    "border-t border-paper/10 px-6 py-4",
+                    "border-t border-paper/10 px-6 py-4 font-mono text-lg text-paper",
                     plan.featured && "bg-ink-2"
                   )}
                 >
-                  <span className="flex items-center gap-3">
-                    <span className="font-mono text-2xl text-paper">{plan.cameras}</span>
-                    <span aria-hidden className="flex gap-1">
-                      {Array.from({ length: 3 }).map((_, i) => (
-                        <span
-                          key={i}
-                          className={cn(
-                            "h-3 w-5 rounded-[2px]",
-                            i < plan.cameras ? "bg-tally" : "border border-paper/20"
-                          )}
-                        />
-                      ))}
-                    </span>
-                  </span>
+                  {plan.cameras}
                 </td>
               ))}
             </tr>
@@ -145,7 +161,7 @@ export function PricingSection() {
                     variant={plan.featured ? "tally" : "line"}
                     className="w-full"
                   >
-                    Book a session
+                    Book {plan.name}
                   </ButtonLink>
                 </td>
               ))}
@@ -159,20 +175,21 @@ export function PricingSection() {
             <div
               key={plan.name}
               className={cn(
-                "w-[84%] max-w-sm shrink-0 snap-start rounded-tight border p-6 md:w-auto md:max-w-none",
-                plan.featured ? "border-tally bg-ink-2" : "border-paper/10"
+                "w-[84%] max-w-sm shrink-0 snap-start rounded-tight border p-5 md:w-auto md:max-w-none",
+                plan.featured ? "border-paper/60 bg-ink-2" : "border-paper/10"
               )}
             >
-              <div className="flex items-center justify-between">
+              <Feeds cameras={plan.cameras} />
+              <div className="mt-6 flex items-center justify-between gap-3">
                 <h3 className="text-lg font-medium">{plan.name}</h3>
                 {plan.featured && (
-                  <span className="font-mono text-xs text-tally">Recommended</span>
+                  <span className="ident rounded-[2px] bg-paper/10 px-1.5 py-0.5 text-[10px] text-paper">Recommended</span>
                 )}
               </div>
               <p className="mt-1 text-sm text-muted-ink">{plan.pitch}</p>
               <p className="mt-5 flex items-baseline gap-2">
                 <span className="font-display-wide text-4xl">{formatTaka(plan.price)}</span>
-                <span className="text-sm text-dim">per hour</span>
+                <span className="text-sm text-dim">an hour</span>
               </p>
               <dl className="mt-6 space-y-2.5 text-sm">
                 <div className="flex justify-between gap-4">
@@ -193,7 +210,7 @@ export function PricingSection() {
                 variant={plan.featured ? "tally" : "line"}
                 className="mt-7 w-full"
               >
-                Book a session
+                Book {plan.name}
               </ButtonLink>
             </div>
           ))}
@@ -205,7 +222,7 @@ export function PricingSection() {
             href={waLink("Hi! I'd like to ask about a custom or recurring plan at EasyPod Studio.")}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1 text-paper underline decoration-tally underline-offset-4 hover:text-tally"
+            className="inline-flex items-center gap-1 text-paper underline decoration-paper/40 underline-offset-4 hover:decoration-paper"
           >
             Ask about a custom plan
             <ArrowRight className="size-3.5" />

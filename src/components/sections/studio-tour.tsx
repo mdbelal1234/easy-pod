@@ -33,7 +33,7 @@ export function StudioTour() {
 
         <dl className="mt-10 grid grid-cols-2 gap-x-6 gap-y-8 lg:grid-cols-4">
           {highlights.map(({ title, detail }) => (
-            <div key={title} className="border-l border-tally/70 pl-4">
+            <div key={title} className="border-l border-paper/15 pl-4">
               <dt className="text-sm font-medium text-paper">{title}</dt>
               <dd className="mt-1 text-sm text-muted-ink">{detail}</dd>
             </div>

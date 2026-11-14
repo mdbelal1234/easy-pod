@@ -1,5 +1,6 @@
 import { ArrowUpRight } from "lucide-react";
 import { ButtonLink } from "@/components/site/button-link";
+import { StudioStatus } from "@/components/site/studio-status";
 import { site, waLink } from "@/lib/site";
 
 const details = [
@@ -10,7 +11,7 @@ const details = [
 
 export function LocationSection() {
   return (
-    <section id="contact" className="relative scroll-mt-16 border-t border-paper/10 lg:min-h-[640px]">
+    <section id="contact" className="relative scroll-mt-16 lg:min-h-[680px]">
       <iframe
         src={site.mapEmbedSrc}
         title={`${site.name} location in Dhaka`}
@@ -21,9 +22,10 @@ export function LocationSection() {
         allowFullScreen
       />
 
-      <div className="pointer-events-none relative mx-auto max-w-[1400px] px-4 py-12 sm:px-6 lg:flex lg:min-h-[640px] lg:items-center lg:justify-end lg:px-10 lg:py-16">
+      <div className="pointer-events-none relative mx-auto max-w-[1400px] px-4 py-12 sm:px-6 lg:flex lg:min-h-[680px] lg:items-center lg:justify-end lg:px-10 lg:py-16">
         <div className="pointer-events-auto w-full rounded-tight bg-ink/95 lg:max-w-md lg:border lg:border-paper/10 lg:p-10 lg:shadow-[0_30px_80px_-30px_rgb(0_0_0/0.8)] lg:backdrop-blur">
           <h2 className="font-display-wide text-4xl leading-[1.02]">Find us in Vatara.</h2>
+          <StudioStatus className="mt-4 text-sm text-muted-ink" />
 
           <dl className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-1">
             {details.map(({ term, lines }) => (
@@ -39,12 +41,12 @@ export function LocationSection() {
             <div>
               <dt className="text-sm text-dim">Contact</dt>
               <dd>
-                <a href={`tel:${site.phone.replace(/\s/g, "")}`} className="text-paper hover:text-tally">
+                <a href={`tel:${site.phone.replace(/\s/g, "")}`} className="text-paper decoration-paper/40 underline-offset-4 hover:underline">
                   {site.phone}
                 </a>
               </dd>
               <dd>
-                <a href={`mailto:${site.email}`} className="text-paper hover:text-tally">
+                <a href={`mailto:${site.email}`} className="text-paper decoration-paper/40 underline-offset-4 hover:underline">
                   {site.email}
                 </a>
               </dd>

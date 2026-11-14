@@ -130,7 +130,9 @@ export default async function BookingsPage({
                     </td>
                     <td className="px-4 py-3 text-gray-600">
                       {format(new Date(b.preferredDate), "MMM d, yyyy")}
-                      <div className="text-xs text-gray-400">{b.preferredTime}</div>
+                      <div className="text-xs text-gray-400">
+                        {b.preferredTime} · {b.durationHours}h
+                      </div>
                     </td>
                     <td className="px-4 py-3 text-gray-600">
                       {b.package?.name || "—"}

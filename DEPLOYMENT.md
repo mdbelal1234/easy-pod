@@ -85,7 +85,44 @@ CLOUDINARY_API_KEY="your-api-key"
 CLOUDINARY_API_SECRET="your-api-secret"
 NEXT_PUBLIC_WHATSAPP_NUMBER="8801XXXXXXXXX"
 NEXT_PUBLIC_SITE_URL="https://easypod.studio"
+WHATSAPP_ACCESS_TOKEN=""
+WHATSAPP_PHONE_NUMBER_ID=""
 ```
+
+### WhatsApp booking alerts
+
+Each new booking sends a WhatsApp message to the studio
+(`NEXT_PUBLIC_WHATSAPP_NUMBER`, or `WHATSAPP_NOTIFY_TO` if set) through Meta's
+WhatsApp Cloud API. While `WHATSAPP_ACCESS_TOKEN` or `WHATSAPP_PHONE_NUMBER_ID`
+is empty, alerts are skipped and bookings still work. A failed alert is logged
+(`pm2 logs`) and never fails the booking.
+
+1. In [Meta for Developers](https://developers.facebook.com/apps), create an app
+   of type **Business** and add the **WhatsApp** product.
+2. Add a sending number under **WhatsApp → API Setup**. It must be a number
+   that is *not* already used in the WhatsApp app, because the studio's own
+   number has to receive the alerts. Copy its **Phone number ID** into
+   `WHATSAPP_PHONE_NUMBER_ID`.
+3. In Business Settings, create a **System User**, give it the app with
+   `whatsapp_business_messaging`, and generate a permanent token for
+   `WHATSAPP_ACCESS_TOKEN`. (The token on the API Setup page expires in 24 hours.)
+4. In **WhatsApp Manager → Message templates**, create a template named
+   `new_booking`, category **Utility**, language **English** (`en`), with this body:
+
+   ```
+   New booking request from {{1}} ({{2}}).
+   Date: {{3}}, {{4}} for {{5}}
+   Package: {{6}}
+   Recording: {{7}}
+   Approve or reject it in the EasyPod admin panel.
+   ```
+
+   Sample values for review: `Rahim Ahmed`, `+8801711000000`, `Tue, 20 Oct 2026`,
+   `1:00 PM`, `2 hours`, `Creator Pro, est. ৳4,000`, `video podcast`.
+   Approval usually takes a day or two; until then sends fail with a template error.
+
+Optional: `WHATSAPP_TEMPLATE` and `WHATSAPP_TEMPLATE_LANGUAGE` change the template
+name and language, and `WHATSAPP_API_VERSION` (default `v23.0`) the Graph API version.
 
 Generate AUTH_SECRET:
 ```bash

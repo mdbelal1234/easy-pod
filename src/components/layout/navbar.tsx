@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { Wordmark } from "@/components/site/wordmark";
 import { ButtonLink } from "@/components/site/button-link";
+import { StudioStatus } from "@/components/site/studio-status";
 import { cn } from "@/lib/utils";
 
 // Single-page site: every link scrolls to a section on the home page.
@@ -100,9 +101,12 @@ export function Navbar() {
             })}
           </ul>
 
-          <ButtonLink href="/#book" className="hidden h-10 px-5 text-sm md:inline-flex">
-            Book a session
-          </ButtonLink>
+          <div className="hidden items-center gap-6 md:flex">
+            <StudioStatus className="hidden text-xs text-muted-ink xl:inline-flex" />
+            <ButtonLink href="/#book" className="h-10 px-5 text-sm">
+              Book a session
+            </ButtonLink>
+          </div>
 
           <div className="flex items-center gap-1 md:hidden">
             {!open && (
