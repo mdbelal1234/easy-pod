@@ -3,7 +3,7 @@
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 import { revalidatePath } from "next/cache";
-import { resend, FROM_EMAIL } from "@/lib/resend";
+import { resend, emailConfigured, FROM_EMAIL } from "@/lib/resend";
 
 async function requireAdmin() {
   const session = await auth();
@@ -26,7 +26,7 @@ export async function updateBookingStatus(
   });
 
   // Notify client of status change
-  if (status === "APPROVED" || status === "REJECTED") {
+  if (emailConfigured && (status === "APPROVED" || status === "REJECTED")) {
     const subject =
       status === "APPROVED"
         ? "Your Booking is Confirmed! — Easy Pod"

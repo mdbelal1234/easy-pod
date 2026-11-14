@@ -4,7 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { bookingSchema } from "@/lib/validations";
 import { formatTaka, packages } from "@/lib/packages";
 import { dayRange, fits, holdingStatuses, isIsoDate, occupiedHours, parseSlot } from "@/lib/schedule";
-import { resend, FROM_EMAIL, ADMIN_EMAIL } from "@/lib/resend";
+import { resend, emailConfigured, FROM_EMAIL, ADMIN_EMAIL } from "@/lib/resend";
 import { sendStudioAlert, whatsappConfigured } from "@/lib/whatsapp";
 import { revalidatePath } from "next/cache";
 import { after } from "next/server";
@@ -87,6 +87,10 @@ type SavedBooking = Parameters<typeof adminBookingNotification>[0] & {
 
 async function notifyBooking(booking: SavedBooking) {
   const sendEmail = async (to: string, subject: string, html: string) => {
+    if (!emailConfigured) {
+      console.warn(`RESEND_API_KEY is not set; skipped email "${subject}"`);
+      return;
+    }
     const { error } = await resend.emails.send({ from: FROM_EMAIL, to, subject, html });
     if (error) throw new Error(`Resend: ${error.message}`);
   };
